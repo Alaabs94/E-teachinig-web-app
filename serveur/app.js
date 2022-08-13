@@ -21,8 +21,8 @@ app.use(
 //   app.use(signoutRouter);
 //   app.use(signupRouter);
   
-//   app.get("*", async () => {
-//     throw new NotFoundError();
-//   });
+  app.get("*", async (req,res) => {
+   res.status(404).send([{message:"route not found"}])
+  });
 //   app.use(errorHandler);
   module.exports = app ;
