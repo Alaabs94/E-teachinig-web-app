@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import Contacts from "../../UI-components/contacts";
+import Contacts from "../../../UI-components/contacts";
 function Signup() {
   return (
 

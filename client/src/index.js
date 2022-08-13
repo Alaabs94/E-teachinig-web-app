@@ -5,8 +5,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import{Route, Routes, BrowserRouter} from "react-router-dom";
-import configureStore from './store';
-const store = configureStore()
+import store from './store';
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(

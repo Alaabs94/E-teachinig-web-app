@@ -1,9 +1,9 @@
-import counter from "./reducers/counter-reducer";
+import authReducer from "./reducers/auth-reducer";
 import { combineReducers } from "redux";
 
 
  export default combineReducers({
-  counter
+  authReducer
     
   });
 

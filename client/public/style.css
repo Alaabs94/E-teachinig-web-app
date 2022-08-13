@@ -266,6 +266,7 @@ ol {
 
 .site-logo {
 	display: inline-block;
+	
 }
 
 .main-menu ul {
@@ -386,7 +387,7 @@ ol {
 ---------------------*/
 
 .search-warp {
-	background: #d82a4e;
+	/* background: #d82a4e; */
 	padding-top: 60px;
 	padding-bottom: 50px;
 }
@@ -396,7 +397,7 @@ ol {
 }
 
 .course-search-form {
-	background: #fff;
+	/* background: #fff; */
 	padding: 44px 38px;
 }
 
@@ -420,6 +421,8 @@ ol {
 .course-search-form .site-btn {
 	min-width: 198px;
 	padding: 16px 10px;
+	background: #d82a4e;
+
 }
 
 .search-section.ss-other-page {
@@ -637,9 +640,10 @@ ol {
 
 .signup-form input[type=text],
 .signup-form input[type=email],
-.signup-form textarea,
+
 .contact-form input[type=text],
 .contact-form input[type=email],
+.contact-form input[type=password],
 .contact-form textarea {
 	height: 57px;
 	width: 100%;
@@ -706,6 +710,7 @@ ol {
 }
 
 .footer-warp {
+	
 	max-width: 1559px;
 	padding: 0 15px;
 	margin: 0 auto;
