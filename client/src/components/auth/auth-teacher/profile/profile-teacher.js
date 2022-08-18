@@ -1,10 +1,11 @@
 import EditTeacher from "./edit-teacher";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
 import { signoutAction } from "../../../../actions/teacher-auth-actions";
 const ProfileTeacher = () => {
+  const currentTeacher = useSelector((state) => state.authTeacherReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
@@ -46,9 +47,11 @@ const ProfileTeacher = () => {
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
                 />
-                <h5 className="my-3">John Smith</h5>
-                <p className="text-muted mb-1">Full Stack Developer</p>
-                <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                <h5 className="my-3">
+                  {currentTeacher.firstname + " " + currentTeacher.lastname}
+                </h5>
+                <p className="text-muted mb-1">Teacher</p>
+                <p className="text-muted mb-4">{currentTeacher.description}</p>
                 <div className="d-flex justify-content-center mb-2">
                   <a
                     href="#"
@@ -109,7 +112,9 @@ const ProfileTeacher = () => {
                     <p className="mb-0">Full Name</p>
                   </div>
                   <div className="col-sm-9">
-                    <p className="text-muted mb-0">Johnatan Smith</p>
+                    <p className="text-muted mb-0">
+                      {currentTeacher.firstname + " " + currentTeacher.lastname}
+                    </p>
                   </div>
                 </div>
                 <hr />
@@ -118,7 +123,7 @@ const ProfileTeacher = () => {
                     <p className="mb-0">Email</p>
                   </div>
                   <div className="col-sm-9">
-                    <p className="text-muted mb-0">example@example.com</p>
+                    <p className="text-muted mb-0">{currentTeacher.email}</p>
                   </div>
                 </div>
                 <hr />

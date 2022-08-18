@@ -1,24 +1,20 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
-// import { getTeacher } from "../../../actions/teacher-auth-actions";get
-import { getTeacher } from "../actions/teacher-auth-actions";
+
 const Dropdowns = () => {
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.authReducer);
-  const teacherAuth = useSelector((state) => state.authTeacherReducer);
-  useEffect(() => {
-    getcurrentTeacher();
-  }, []);
-  const getcurrentTeacher = () =>
-    dispatch(getTeacher()).then((res) => {
-      console.log(res.data);
-    });
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+
   useEffect(() => {
     console.log(teacherAuth);
   });
   return (
     <div className="btn-group">
-      {auth || techerAuth ? (
+      {auth || teacherAuth ? (
+        <a href="/signupteacher" className="site-btn header-btn">
+          logout
+        </a>
+      ) : (
         <div>
           <button
             type="button"
@@ -42,10 +38,6 @@ const Dropdowns = () => {
             </li>
           </ul>
         </div>
-      ) : (
-        <a href="#" className="site-btn header-btn">
-          logout
-        </a>
       )}
     </div>
   );

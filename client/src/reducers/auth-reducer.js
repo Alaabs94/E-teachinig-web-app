@@ -13,13 +13,16 @@ import {
 
 const authReducer = (initialState = {}, action) => {
   switch (action.type) {
-    case signinUser || signupUser || editUser || currentUser:
+    case signinUser:
+    case signupUser:
+    case editUser:
+    case currentUser:
       return { ...initialState, ...action.payload, auth: true };
-    case failSigninUser ||
-      failSignupUser ||
-      failSignoutUser ||
-      failCurrentUser ||
-      failEditUser:
+    case failSigninUser:
+    case failSignupUser:
+    case failSignoutUser:
+    case failCurrentUser:
+    case failEditUser:
       return {
         ...action.payload,
         auth: false,

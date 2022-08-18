@@ -2,9 +2,11 @@ import react from "react";
 import EditUser from "./edit-user";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signoutAction } from "../../../../actions/auth-action";
 const ProfileUser = () => {
+  const currentuser = useSelector((state) => state.authReducer);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
@@ -45,9 +47,11 @@ const ProfileUser = () => {
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
                 />
-                <h5 className="my-3">John Smith</h5>
-                <p className="text-muted mb-1">Full Stack Developer</p>
-                <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                <h5 className="my-3">
+                  {currentuser.firstname + " " + currentuser.lastname}
+                </h5>
+                <p className="text-muted mb-1">Student</p>
+                <p className="text-muted mb-4">{currentuser.description}</p>
                 <div className="d-flex justify-content-center mb-2">
                   <a
                     href="#"
@@ -108,7 +112,9 @@ const ProfileUser = () => {
                     <p className="mb-0">Full Name</p>
                   </div>
                   <div className="col-sm-9">
-                    <p className="text-muted mb-0">Johnatan Smith</p>
+                    <p className="text-muted mb-0">
+                      {currentuser.firstname + " " + currentuser.lastname}
+                    </p>
                   </div>
                 </div>
                 <hr />
@@ -117,7 +123,7 @@ const ProfileUser = () => {
                     <p className="mb-0">Email</p>
                   </div>
                   <div className="col-sm-9">
-                    <p className="text-muted mb-0">example@example.com</p>
+                    <p className="text-muted mb-0">{currentuser.email}</p>
                   </div>
                 </div>
                 <hr />
