@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body } = require("express-validator");
 const express = require("express");
 const userAuth = require("../controllers/student-auth-controllers");
 const studentRoutes = express.Router();
@@ -15,7 +15,12 @@ studentRoutes.post(
 );
 studentRoutes.get("/signout", userAuth.signout);
 studentRoutes.post("/signin", userAuth.signin);
-studentRoutes.get("/currentuser", midUser.currentuser, userAuth.currentUser);
+studentRoutes.get(
+  "/currentuser",
+  midUser.currentuser,
+  midUser.passports,
+  userAuth.currentUser
+);
 studentRoutes.put(
   "/edituser",
   body("email").isEmail().withMessage("email must be valid"),
@@ -24,6 +29,7 @@ studentRoutes.put(
     .isLength({ min: 5, max: 20 })
     .withMessage("password must be valid"),
   midUser.currentuser,
+  midUser.passports,
   userAuth.editUser
 );
 

@@ -25,7 +25,7 @@ exports.signup = async function (req, res) {
   const { email, password, firstname, lastname } = req.body;
   const existingStudent = await Student.findOne({ email });
   if (existingStudent) {
-    res.status(400).send([{ message: "user exist already" }]);
+    return res.status(400).send([{ message: "user exist already" }]);
   }
   const user = Student.build({ email, password, firstname, lastname });
   await user.save();
@@ -45,14 +45,14 @@ exports.signin = async function (req, res) {
   const { email, password } = req.body;
   const existUser = await Student.findOne({ email });
   if (!existUser) {
-    res.status(400).send([{ error: "invalid credentials" }]);
+    return res.status(400).send([{ error: "invalid credentials" }]);
   }
   const passwordMatch = await passwordMod.comparePasswords(
     existUser.password,
     password
   );
   if (!passwordMatch) {
-    res.status(400).send([{ error: "password mismatched" }]);
+    return res.status(400).send([{ error: "password mismatched" }]);
   }
   const userJwt = jwt.sign(
     { id: existUser.id, email: existUser.email, password: existUser.password },
@@ -64,8 +64,7 @@ exports.signin = async function (req, res) {
   res.status(200).send(existUser);
 };
 exports.currentUser = async function (req, res) {
-  const existUser = await Student.findOne({ email: req.currentuser.email });
-  res.send({ currentuser: existUser || null });
+  res.send({ currentuser: req.currentuser || null });
 };
 exports.signout = async function (req, res) {
   req.session = null;
