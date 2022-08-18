@@ -1,11 +1,10 @@
-const Student = require("../models/student-auth-model");
+const Teacher = require("../models/Teacher-auth-model");
 const dotenv = require("dotenv").config();
 const passwordChange = require("../midellwares/password");
 
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const passwordMod = require("../midellwares/password");
-const midUserc = require("../midellwares/currentuser");
 
 exports.test = function (req, res) {
   res.send("hi my server is working");
@@ -23,11 +22,11 @@ exports.signup = async function (req, res) {
 
   console.log(req.body.email);
   const { email, password, firstname, lastname } = req.body;
-  const existingStudent = await Student.findOne({ email });
-  if (existingStudent) {
+  const existingTeacher = await Teacher.findOne({ email });
+  if (existingTeacher) {
     res.status(400).send([{ message: "user exist already" }]);
   }
-  const user = Student.build({ email, password, firstname, lastname });
+  const user = Teacher.build({ email, password, firstname, lastname });
   await user.save();
   const userJwt = jwt.sign(
     { id: user._id, email: user.email, password: user.password },
@@ -43,7 +42,7 @@ exports.signup = async function (req, res) {
 
 exports.signin = async function (req, res) {
   const { email, password } = req.body;
-  const existUser = await Student.findOne({ email });
+  const existUser = await Teacher.findOne({ email });
   if (!existUser) {
     res.status(400).send([{ error: "invalid credentials" }]);
   }
@@ -63,8 +62,8 @@ exports.signin = async function (req, res) {
   };
   res.status(200).send(existUser);
 };
-exports.currentUser = async function (req, res) {
-  const existUser = await Student.findOne({ email: req.currentuser.email });
+exports.currentTeacher = async function (req, res) {
+  const existUser = await Teacher.findOne({ email: req.currentuser.email });
   res.send({ currentuser: existUser || null });
 };
 exports.signout = async function (req, res) {
@@ -72,41 +71,44 @@ exports.signout = async function (req, res) {
   res.send({});
 };
 
-exports.editUser = async function (req, res) {
+exports.editTeacher = async function (req, res) {
   const errors = validationResult(req);
+  console.log(req.body.email);
+  const { email } = req.body;
 
   if (!errors.isEmpty()) {
     const validation = errors.array().map((err) => {
       return { message: err.msg, field: err.param };
     });
     return res.status(400).json(validation);
-  }
-  const changePassword = await passwordChange.toHash(req.body.password);
-  const user = await Student.findByIdAndUpdate(
-    { _id: req.currentuser.id },
-    {
-      $set: {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        password: changePassword,
-        description: req.body.description,
-        picture: req.body.picture,
+  } else {
+    const changePassword = await passwordChange.toHash(req.body.password);
+    const user = await Teacher.findByIdAndUpdate(
+      { _id: req.currentuser.id },
+      {
+        $set: {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          password: changePassword,
+          description: req.body.description,
+          picture: req.body.picture,
+        },
+      }
+    );
+
+    const userJwt = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        password: user.password,
       },
-    }
-  );
+      process.env.JWT_KEY
+    );
 
-  const userJwt = jwt.sign(
-    {
-      id: user._id,
-      email: user.email,
-      password: user.password,
-    },
-    process.env.JWT_KEY
-  );
+    req.session = {
+      jwt: userJwt,
+    };
 
-  req.session = {
-    jwt: userJwt,
-  };
-
-  res.status(201).send(user);
+    res.status(201).send(user);
+  }
 };

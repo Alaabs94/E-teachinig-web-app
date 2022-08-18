@@ -1,30 +1,28 @@
 import {
-  signinUser,
-  signupUser,
-  failSigninUser,
-  failSignupUser,
-  signoutUser,
-  failSignoutUser,
-  currentUser,
-  failCurrentUser,
-  editUser,
-  failEditUser,
-} from "../constants/auth-types";
-import authServices from "../services/auth-services";
+  signinTeacher,
+  signupTeacher,
+  failSigninTeacher,
+  failSignupTeacher,
+  signoutTeacher,
+  failSignoutTeacher,
+  currentTeacher,
+  failCurrentTeacher,
+  editTeacher,
+  failEditTeacher,
+} from "../constants/teacher-auth-types";
+import teacherServices from "../services/teacher-auth-services";
 
-export const signupAction = (data) => async (dispatch, getState) => {
+export const signupAction = (data) => async (dispatch) => {
   try {
-    const res = await authServices.createUser(data);
-
+    const res = await teacherServices.createTeacher(data);
     dispatch({
-      type: signupUser,
+      type: signupTeacher,
       payload: res.data,
     });
-
     return Promise.resolve(res.data);
   } catch (error) {
     dispatch({
-      type: failSignupUser,
+      type: failSignupTeacher,
       payload: error.response.data,
     });
     return Promise.reject(error);
@@ -32,15 +30,15 @@ export const signupAction = (data) => async (dispatch, getState) => {
 };
 export const signinAction = (data) => async (dispatch) => {
   try {
-    const res = await authServices.identifyUser(data);
+    const res = await teacherServices.identifyTeacher(data);
     dispatch({
-      type: signinUser,
+      type: signinTeacher,
       payload: res.data,
     });
     return Promise.resolve(res.data);
   } catch (error) {
     dispatch({
-      type: failSigninUser,
+      type: failSigninTeacher,
       payload: error.response.data,
     });
     return Promise.reject(error);
@@ -48,32 +46,32 @@ export const signinAction = (data) => async (dispatch) => {
 };
 export const signoutAction = () => async (dispatch) => {
   try {
-    const res = await authServices.signout();
+    const res = await teacherServices.signout();
     dispatch({
-      type: signoutUser,
+      type: signoutTeacher,
       payload: res.data,
     });
     return Promise.resolve(res.data);
   } catch (error) {
     dispatch({
-      type: failSignoutUser,
+      type: failSignoutTeacher,
       payload: error.response.data,
     });
     return Promise.reject(error);
   }
 };
 
-export const getUser = () => async (dispatch) => {
+export const getTeacher = () => async (dispatch) => {
   try {
-    const res = await authServices.getUser();
+    const res = await teacherServices.getTeacher();
     dispatch({
-      type: currentUser,
+      type: currentTeacher,
       payload: res.data.currentuser,
     });
     return Promise.resolve(res.data);
   } catch (error) {
     dispatch({
-      type: failCurrentUser,
+      type: failCurrentTeacher,
       payload: error.response.data,
     });
     return Promise.reject(error);
@@ -82,15 +80,15 @@ export const getUser = () => async (dispatch) => {
 
 export const editAction = (data) => async (dispatch) => {
   try {
-    const res = await authServices.editUser(data);
+    const res = await teacherServices.editTeacher(data);
     dispatch({
-      type: editUser,
+      type: editTeacher,
       payload: res.data,
     });
     return Promise.resolve(res.data);
   } catch (error) {
     dispatch({
-      type: failEditUser,
+      type: failEditTeacher,
       payload: error.response.data,
     });
     return Promise.reject(error);

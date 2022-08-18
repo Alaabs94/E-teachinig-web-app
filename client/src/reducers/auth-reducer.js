@@ -21,7 +21,6 @@ const authReducer = (initialState = {}, action) => {
       failCurrentUser ||
       failEditUser:
       return {
-        ...initialState,
         ...action.payload,
         auth: false,
         errors: action.payload,

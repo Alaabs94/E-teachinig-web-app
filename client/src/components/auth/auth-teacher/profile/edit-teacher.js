@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { editAction, getUser } from "../../../../actions/auth-action";
-const EditUser = () => {
+import { useDispatch } from "react-redux";
+import {
+  editAction,
+  getTeacher,
+} from "../../../../actions/teacher-auth-actions";
+const EditTeacher = () => {
   const dispatch = useDispatch();
 
   const initialUser = {
@@ -15,10 +18,10 @@ const EditUser = () => {
   };
   const [user, setUser] = useState(initialUser);
   useEffect(() => {
-    getcurrentUser();
+    getcurrentTeacher();
   }, []);
-  const getcurrentUser = () =>
-    dispatch(getUser()).then((res) => {
+  const getcurrentTeacher = () =>
+    dispatch(getTeacher()).then((res) => {
       setUser({ ...res.currentuser, password: "", repeatPassword: "" });
     });
 
@@ -176,4 +179,4 @@ const EditUser = () => {
     </div>
   );
 };
-export default EditUser;
+export default EditTeacher;

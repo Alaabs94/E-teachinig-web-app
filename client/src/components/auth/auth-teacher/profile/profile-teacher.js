@@ -1,10 +1,10 @@
-import react from "react";
-import EditUser from "./edit-user";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import EditTeacher from "./edit-teacher";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { signoutAction } from "../../../../actions/auth-action";
-const ProfileUser = () => {
+import { useNavigate, Link } from "react-router-dom";
+
+import { signoutAction } from "../../../../actions/teacher-auth-actions";
+const ProfileTeacher = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
@@ -12,6 +12,7 @@ const ProfileUser = () => {
       navigate("/");
     });
   };
+
   return (
     <section style={{ backgroundColor: "#3e3e3e" }}>
       <div className="container py-5">
@@ -57,7 +58,7 @@ const ProfileUser = () => {
                   >
                     Edit
                   </a>
-                  <EditUser />
+                  <EditTeacher />
                 </div>
               </div>
             </div>
@@ -157,4 +158,4 @@ const ProfileUser = () => {
     </section>
   );
 };
-export default ProfileUser;
+export default ProfileTeacher;
