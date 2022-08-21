@@ -2,6 +2,7 @@ const express = require("express");
 const { json } = require("body-parser");
 const studentRouter = require("./src/routes/student-auth-routes");
 const teacherRoutes = require("./src/routes/teacher-auth-routes");
+const courseRoutes = require("./src/routes/course-routes");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
@@ -26,7 +27,7 @@ app.use(
 // console.log(process.env.JWT_KEY);
 app.use("/api/student", studentRouter);
 app.use("/api/teacher", teacherRoutes);
-//   app.use(signinRouter);
+app.use("/api/course", courseRoutes);
 //   app.use(signoutRouter);
 //   app.use(signupRouter);
 
