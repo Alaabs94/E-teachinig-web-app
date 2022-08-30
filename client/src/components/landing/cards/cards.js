@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { showAction } from "../../../actions/course-action";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 const Cards = () => {
   const [course, setCourse] = useState([]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,12 +27,18 @@ const Cards = () => {
         <div className="row course-items-area">
           {/* course */}
           {course.map((el) => (
-            <div key={el.id} className="mix col-lg-3 col-md-4 col-sm-6 finance">
-              <div className="course-item">
-                <div
-                  className="course-thumb set-bg"
-                  style={{ backgroundImage: "url(img/authors/1.jpg)" }}
-                >
+            <Link
+              to={`/card/${el.id}`}
+              state={el}
+              className="mix col-lg-3 col-md-4 col-sm-6 finance"
+              key={el.id}
+            >
+              {" "}
+              <div
+                className="course-item"
+                style={{ backgroundImage: `url(${el.picture})` }}
+              >
+                <div className="course-thumb set-bg">
                   <div className="price">Price: $15</div>
                 </div>
                 <div className="course-info">
@@ -42,7 +50,7 @@ const Cards = () => {
                   <div className="course-author">
                     <div
                       className="ca-pic set-bg"
-                      style={{ backgroundImage: "url(img/authors/1.jpg)" }}
+                      style={{ backgroundImage: `url(${el.picture})` }}
                     ></div>
                     <p>
                       {el.teacher.firstname + " " + el.teacher.lastname},{" "}
@@ -51,7 +59,7 @@ const Cards = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
