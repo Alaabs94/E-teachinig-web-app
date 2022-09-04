@@ -15,13 +15,13 @@ const CardDetails = (props) => {
           <div className="col-lg-9">
             {/* <!-- blog post --> */}
             <div className="blog-post">
-              <img src="./img/blog/1.jpg" alt="" />
+              <img src="img/blog/1.jpg" alt="" />
               <h3>How to create the perfect resume</h3>
               <div className="blog-metas">
                 <div className="blog-meta author">
                   <div
                     className="post-author set-bg"
-                    data-setbg="img/authors/1.jpg"
+                    // data-setbg="img/authors/1.jpg"
                     style={{ backgroundImage: `url(img/authors/1.jpg)` }}
                   ></div>
                   <a href="/signup">James Smith</a>

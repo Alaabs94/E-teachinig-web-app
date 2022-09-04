@@ -29,7 +29,13 @@ exports.signup = async function (req, res) {
   const user = Teacher.build({ email, password, firstname, lastname });
   await user.save();
   const userJwt = jwt.sign(
-    { id: user._id, email: user.email, password: user.password },
+    {
+      id: user._id,
+      firstname: user._firstname,
+      lastname: user._lastname,
+      email: user.email,
+      password: user.password,
+    },
     process.env.JWT_KEY
   );
 
@@ -54,7 +60,13 @@ exports.signin = async function (req, res) {
     return res.status(400).send([{ error: "password mismatched" }]);
   }
   const userJwt = jwt.sign(
-    { id: existUser.id, email: existUser.email, password: existUser.password },
+    {
+      id: existUser.id,
+      firstname: existUser.firstname,
+      lastname: existUser.lastname,
+      email: existUser.email,
+      password: existUser.password,
+    },
     process.env.JWT_KEY
   );
   req.session = {

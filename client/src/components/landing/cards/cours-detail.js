@@ -1,42 +1,34 @@
 import "./cours-detail.css";
+import video1 from "../../../videos/video-1.mp4";
+import video2 from "../../../videos/video-2.mp4";
+import video3 from "../../../videos/video-3.mp4";
+import video4 from "../../../videos/video-4.mp4";
+import video5 from "../../../videos/video-5.mp4";
+import video6 from "../../../videos/video-6.mp4";
+
+import React, { useState } from "react";
 
 const CoursesDetails = () => {
+  const [vid, setVid] = useState(video1);
+  const onClickList = (vi) => {
+    setVid(vi);
+  };
+  const arrVideos = [video1, video2, video3, video4, video5, video6];
   return (
-    <div className="container">
+    <div className="video-container">
       <div className="main-video">
         <div className="video">
-          <video width="320" height="240" controls>
-            <source src="img/videos/video-1.mp4" type="video/mp4" />
-          </video>
-          {/* <video src="video-1.mp4" controls muted autoplay></video>
-          <h3 className="title">01.video title goes here</h3> */}
+          <video src={vid} controls muted autoplay></video>
+          <h3 className="title">01.video title goes here</h3>
         </div>
       </div>
       <div className="video-list">
-        <div className="vid active">
-          <video src="img/video-1.mp4" controls muted autoplay></video>
-          <h3 className="title">02.video title goes here</h3>
-        </div>
-        <div className="vid">
-          <video src="img/videos/video-2.mp4" controls muted autoplay></video>
-          <h3 className="title">03.video title goes here</h3>
-        </div>
-        <div className="vid">
-          <video src="img/videos/video-3.mp4" controls muted autoplay></video>
-          <h3 className="title">04.video title goes here</h3>
-        </div>
-        <div className="vid">
-          <video src="img/videos/video-4.mp4" controls muted autoplay></video>
-          <h3 className="title">05.video title goes here</h3>
-        </div>
-        <div className="vid">
-          <video src="img/videos/video-5.mp4" controls muted autoplay></video>
-          <h3 className="title">06.video title goes here</h3>
-        </div>
-        <div className="vid">
-          <video src="img/video-1.mp4" controls muted autoplay></video>
-          <h3 className="title">07.video title goes here</h3>
-        </div>
+        {arrVideos.map((video) => (
+          <div className="vid active" onClick={() => onClickList(video)}>
+            <video src={video}></video>
+            <h3 className="title">02.video title goes here</h3>
+          </div>
+        ))}
       </div>
     </div>
   );
