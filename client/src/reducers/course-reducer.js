@@ -7,6 +7,7 @@ import {
   failDeleteCourse,
   failEditCourse,
   failGetAllCourse,
+  getCoursesByid,
 } from "../constants/course-types";
 let course = [];
 const courseReducer = (initialState = course, action) => {
@@ -18,6 +19,8 @@ const courseReducer = (initialState = course, action) => {
 
     case getAllCourse:
       return { ...course, ...action.payload };
+    case getCoursesByid:
+      return course;
 
     case failCreateCourse:
     case failEditCourse:

@@ -2,9 +2,11 @@ import EditTeacher from "./edit-teacher";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-
+import AddCourse from "./add-course";
+import CourseCard from "./cours-card";
 import { signoutAction } from "../../../../actions/teacher-auth-actions";
 const ProfileTeacher = () => {
+  const [show, setShow] = useState("ALL_COURSES");
   const currentTeacher = useSelector((state) => state.authTeacherReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,7 +15,9 @@ const ProfileTeacher = () => {
       navigate("/");
     });
   };
-
+  const changeView = (view) => {
+    setShow(view);
+  };
   return (
     <section style={{ backgroundColor: "#3e3e3e" }}>
       <div className="container py-5">
@@ -68,96 +72,105 @@ const ProfileTeacher = () => {
             <div className="card mb-4 mb-lg-0">
               <div className="card-body p-0">
                 <ul className="list-group list-group-flush rounded-3">
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i className="fas fa-globe fa-lg text-warning"></i>
-                    <p className="mb-0">https://mdbootstrap.com</p>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <li
+                    onClick={() => changeView("INFORMATION")}
+                    className="list-group-item d-flex justify-content-between align-items-center p-3"
+                  >
                     <i
                       className="fab fa-github fa-lg"
                       style={{ color: "#333333" }}
                     ></i>
-                    <p className="mb-0">mdbootstrap</p>
+                    <p className="mb-0">Information</p>
                   </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i
-                      className="fab fa-twitter fa-lg"
-                      style={{ color: "#55acee" }}
-                    ></i>
-                    <p className="mb-0">@mdbootstrap</p>
+                  <li
+                    onClick={() => changeView("ADD_COURSE")}
+                    className="list-group-item d-flex justify-content-between align-items-center p-3"
+                  >
+                    <i className="fas fa-globe fa-lg text-warning"></i>
+                    <p className="mb-0">Add course</p>
                   </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <li
+                    onClick={() => changeView("ALL_COURSES")}
+                    className="list-group-item d-flex justify-content-between align-items-center p-3"
+                  >
                     <i
-                      className="fab fa-instagram fa-lg"
-                      style={{ color: "#ac2bac" }}
+                      className="fab fa-github fa-lg"
+                      style={{ color: "#333333" }}
                     ></i>
-                    <p className="mb-0">mdbootstrap</p>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i
-                      className="fab fa-facebook-f fa-lg"
-                      style={{ color: "#3b5998" }}
-                    ></i>
-                    <p className="mb-0">mdbootstrap</p>
+                    <p className="mb-0">ALL your courses</p>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col-lg-8">
-            <div className="card mb-4">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Full Name</p>
+          {show === "INFORMATION" && (
+            <div className="col-lg-8">
+              <div className="card mb-4">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Full Name</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">
+                        {currentTeacher.firstname +
+                          " " +
+                          currentTeacher.lastname}
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">
-                      {currentTeacher.firstname + " " + currentTeacher.lastname}
-                    </p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Email</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{currentTeacher.email}</p>
+                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Email</p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Phone</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">(097) 234-5678</p>
+                    </div>
                   </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">{currentTeacher.email}</p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Mobile</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">(098) 765-4321</p>
+                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Phone</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">(097) 234-5678</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Mobile</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">(098) 765-4321</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Address</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">
-                      Bay Area, San Francisco, CA
-                    </p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Address</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">
+                        Bay Area, San Francisco, CA
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+          {show === "ADD_COURSE" && (
+            <div className="col-lg-8">
+              <AddCourse />
+            </div>
+          )}
+          {show === "ALL_COURSES" && (
+            <div className="col-lg-8">
+              <CourseCard />
+            </div>
+          )}
         </div>
       </div>
     </section>

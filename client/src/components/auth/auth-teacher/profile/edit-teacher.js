@@ -66,7 +66,7 @@ const EditTeacher = () => {
           </div>
           <div className="modal-body">
             <form>
-              <div className="col-md-6 mb-4">
+              <div className="contact-form">
                 <div className="file-field">
                   <div className="mb-4">
                     <img

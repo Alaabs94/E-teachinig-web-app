@@ -9,7 +9,7 @@ courseRoutes.post(
 
   body("name")
     .trim()
-    .isLength({ min: 5, max: 20 })
+    .isLength({ min: 3, max: 20 })
     .withMessage("name must be valid"),
   midUser.currentuser,
   midUser.passports,
