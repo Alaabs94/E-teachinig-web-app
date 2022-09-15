@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { showAction } from "../../../../actions/course-action";
 import { useDispatch, useSelector } from "react-redux";
 const CourseCard = () => {
@@ -26,7 +28,14 @@ const CourseCard = () => {
           {course
             .filter((category) => category.teacher.id === teacherId.id)
             .map((el) => (
-              <div className="col-lg-4 col-md-6">
+              <Link
+                to={`/card/${el.id}`}
+                state={el}
+                // className="mix col-lg-3 col-md-4 col-sm-6 finance"
+                className="col-lg-4 col-md-6"
+                key={el.id}
+              >
+                {/* <div className="col-lg-4 col-md-6"> */}
                 <div className="categorie-item">
                   <div
                     className="ci-thumb set-bg"
@@ -38,7 +47,8 @@ const CourseCard = () => {
                     <span>{el.teacher.firstname}</span>
                   </div>
                 </div>
-              </div>
+                {/* </div> */}
+              </Link>
             ))}
         </div>
       </div>

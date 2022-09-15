@@ -25,15 +25,27 @@ courseRoutes.put(
   midUser.passports,
   course.editCourse
 );
-courseRoutes.delete(
-  "/delete/:id",
-  body("name")
-    .trim()
-    .isLength({ min: 5, max: 20 })
-    .withMessage("name must be valid"),
+courseRoutes.post(
+  "/add/:id",
+
   midUser.currentuser,
   midUser.passports,
-  course.deleteCourse
+  course.addSUbscriber
 );
+courseRoutes.post(
+  "/remove/:id",
+
+  midUser.currentuser,
+  midUser.passports,
+  course.removeSUbscriber
+);
+courseRoutes.get(
+  "/status/:id",
+
+  midUser.currentuser,
+  midUser.passports,
+  course.getStatus
+);
+
 courseRoutes.get("/show", course.getAll);
 module.exports = courseRoutes;

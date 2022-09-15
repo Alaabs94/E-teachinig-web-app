@@ -18,7 +18,7 @@ studentRoutes.post("/signin", userAuth.signin);
 studentRoutes.get(
   "/currentuser",
   midUser.currentuser,
-  midUser.passports,
+
   userAuth.currentUser
 );
 studentRoutes.put(

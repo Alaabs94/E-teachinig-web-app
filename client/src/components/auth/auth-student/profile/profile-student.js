@@ -1,18 +1,27 @@
-import react from "react";
+import react, { useState, useEffect } from "react";
 import EditUser from "./edit-user";
+import PersonalCourse from "./personal-course";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signoutAction } from "../../../../actions/auth-action";
 const ProfileUser = () => {
-  const currentuser = useSelector((state) => state.authReducer);
+  const [show, setShow] = useState("ALL_COURSES");
 
+  const currentuser = useSelector((state) => state.authReducer);
+  useEffect(() => {
+    console.log(currentuser);
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
     dispatch(signoutAction()).then((res) => {
       navigate("/");
     });
+  };
+
+  const changeView = (view) => {
+    setShow(view);
   };
   return (
     <section style={{ backgroundColor: "#3e3e3e" }}>
@@ -42,7 +51,7 @@ const ProfileUser = () => {
             <div className="card mb-4">
               <div className="card-body text-center">
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  src={currentuser.picture}
                   alt="avatar"
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
@@ -68,96 +77,89 @@ const ProfileUser = () => {
             <div className="card mb-4 mb-lg-0">
               <div className="card-body p-0">
                 <ul className="list-group list-group-flush rounded-3">
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i className="fas fa-globe fa-lg text-warning"></i>
-                    <p className="mb-0">https://mdbootstrap.com</p>
+                  <li
+                    onClick={() => changeView("INFORMATION")}
+                    className="list-group-item d-flex justify-content-between align-items-center p-3"
+                  >
+                    <i className="fa fa-user fa-lg text-warning"></i>
+                    <p className="mb-0">Information</p>
                   </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+
+                  <li
+                    onClick={() => changeView("ALL_COURSES")}
+                    className="list-group-item d-flex justify-content-between align-items-center p-3"
+                  >
                     <i
-                      className="fab fa-github fa-lg"
-                      style={{ color: "#333333" }}
-                    ></i>
-                    <p className="mb-0">mdbootstrap</p>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i
-                      className="fab fa-twitter fa-lg"
-                      style={{ color: "#55acee" }}
-                    ></i>
-                    <p className="mb-0">@mdbootstrap</p>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i
-                      className="fab fa-instagram fa-lg"
-                      style={{ color: "#ac2bac" }}
-                    ></i>
-                    <p className="mb-0">mdbootstrap</p>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i
-                      className="fab fa-facebook-f fa-lg"
+                      className="fa fa-book fa-lg"
                       style={{ color: "#3b5998" }}
                     ></i>
-                    <p className="mb-0">mdbootstrap</p>
+                    <p className="mb-0">All your courses</p>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col-lg-8">
-            <div className="card mb-4">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Full Name</p>
+          {show === "INFORMATION" && (
+            <div className="col-lg-8">
+              <div className="card mb-4">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Full Name</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">
+                        {currentuser.firstname + " " + currentuser.lastname}
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">
-                      {currentuser.firstname + " " + currentuser.lastname}
-                    </p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Email</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{currentuser.email}</p>
+                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Email</p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Phone</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">(097) 234-5678</p>
+                    </div>
                   </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">{currentuser.email}</p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Mobile</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">(098) 765-4321</p>
+                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Phone</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">(097) 234-5678</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Mobile</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">(098) 765-4321</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <p className="mb-0">Address</p>
-                  </div>
-                  <div className="col-sm-9">
-                    <p className="text-muted mb-0">
-                      Bay Area, San Francisco, CA
-                    </p>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Address</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">
+                        Bay Area, San Francisco, CA
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+          {show === "ALL_COURSES" && (
+            <div className="col-lg-8">
+              <PersonalCourse />
+            </div>
+          )}
         </div>
       </div>
     </section>

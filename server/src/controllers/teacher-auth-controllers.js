@@ -35,6 +35,7 @@ exports.signup = async function (req, res) {
       lastname: user._lastname,
       email: user.email,
       password: user.password,
+      picture: user.picture,
     },
     process.env.JWT_KEY
   );
@@ -50,14 +51,14 @@ exports.signin = async function (req, res) {
   const { email, password } = req.body;
   const existUser = await Teacher.findOne({ email });
   if (!existUser) {
-    return res.status(400).send([{ error: "invalid credentials" }]);
+    return res.status(400).send([{ message: "invalid credentials" }]);
   }
   const passwordMatch = await passwordMod.comparePasswords(
     existUser.password,
     password
   );
   if (!passwordMatch) {
-    return res.status(400).send([{ error: "password mismatched" }]);
+    return res.status(400).send([{ message: "password mismatched" }]);
   }
   const userJwt = jwt.sign(
     {
@@ -66,6 +67,7 @@ exports.signin = async function (req, res) {
       lastname: existUser.lastname,
       email: existUser.email,
       password: existUser.password,
+      picture: existUser.picture,
     },
     process.env.JWT_KEY
   );
@@ -83,8 +85,9 @@ exports.signout = async function (req, res) {
 };
 
 exports.editTeacher = async function (req, res) {
+  // console.log("editTeacher", req.body);
   const errors = validationResult(req);
-  console.log(req.body.email);
+
   const { email } = req.body;
 
   if (!errors.isEmpty()) {

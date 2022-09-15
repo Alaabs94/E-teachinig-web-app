@@ -16,8 +16,11 @@ const authReducer = (initialState = {}, action) => {
     case signinUser:
     case signupUser:
     case editUser:
+      return { ...action.payload, auth: true, type: "user" };
     case currentUser:
-      return { ...initialState, ...action.payload, auth: true };
+      return action.payload
+        ? { ...action.payload, auth: true, type: "user" }
+        : { ...action.payload, auth: false, type: "user" };
     case failSigninUser:
     case failSignupUser:
     case failSignoutUser:

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 import {
   editAction,
   getTeacher,
@@ -16,10 +19,33 @@ const EditTeacher = () => {
     picture: "",
     description: "",
   };
+
+  const [pic, setPic] = useState(initialUser.picture);
   const [user, setUser] = useState(initialUser);
   useEffect(() => {
     getcurrentTeacher();
   }, []);
+  const uploadImage = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("upload_preset", "uuz0hdpn");
+    // axios.defaults.withCredentials = false;
+    axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dofqvjuui/image/upload",
+        formData,
+        { withCredentials: false }
+      )
+      .then(({ data }) => {
+        setPic(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const getcurrentTeacher = () =>
     dispatch(getTeacher()).then((res) => {
       setUser({ ...res.currentuser, password: "", repeatPassword: "" });
@@ -33,14 +59,36 @@ const EditTeacher = () => {
   };
   const onSubmitForm = (event) => {
     event.preventDefault();
+    user.picture = pic;
     console.log(user);
     if (user.password !== user.repeatPassword) {
-      console.log("please repeat the password");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Your repeated password and password should be the same",
+      });
+    } else if (
+      user.password === "" ||
+      user.password === "" ||
+      user.email === "" ||
+      user.lastname === "" ||
+      user.description === "" ||
+      user.picture === "" ||
+      user.firstname === ""
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "empthy field",
+      });
     }
-    dispatch(editAction(user)).then((res) => {
-      setUser({ ...res.data, password: "", repeatPassword: "" });
-    });
-    console.log("userAuth", user);
+    dispatch(editAction(user))
+      .then((res) => {
+        setUser({ ...res.data, password: "", repeatPassword: "" });
+      })
+      .then((res) => {
+        getcurrentTeacher();
+      });
   };
 
   return (
@@ -55,7 +103,7 @@ const EditTeacher = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              New message
+              Edit your profile
             </h5>
             <button
               type="button"
@@ -68,23 +116,38 @@ const EditTeacher = () => {
             <form>
               <div className="contact-form">
                 <div className="file-field">
-                  <div className="mb-4">
-                    <img
-                      src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-                      className="rounded-circle z-depth-1-half avatar-pic"
-                      alt="example placeholder avatar"
-                    />
-                  </div>
                   <div className="d-flex justify-content-center">
-                    <div className="btn btn-mdb-color btn-rounded float-left">
-                      <span>Add photo</span>
+                    <div className="form-group__file">
+                      <div className="file-wrapper">
+                        <label
+                          htmlFor="recipient-picture"
+                          className="col-form-label"
+                        >
+                          Change your profile Photo:
+                        </label>
 
-                      <input
-                        type="file"
-                        value={user.picture}
-                        onChange={handelInputChange}
-                        name="picture"
-                      />
+                        <input
+                          className="file-input"
+                          type="file"
+                          onChange={(e) => uploadImage(e)}
+                          name="picture"
+                        />
+                        {pic ? (
+                          <img
+                            src={pic}
+                            id="imagePreview"
+                            width="200px"
+                            className="file-preview"
+                          />
+                        ) : (
+                          <img
+                            src={user.picture}
+                            id="imagePreview"
+                            width="200px"
+                            className="file-preview"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -159,13 +222,6 @@ const EditTeacher = () => {
             </form>
           </div>
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
             <button
               type="submit"
               className="btn btn-primary"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import { editAction, getUser } from "../../../../actions/auth-action";
 const EditUser = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const EditUser = () => {
     description: "",
   };
   const [user, setUser] = useState(initialUser);
+  const [pic, setPic] = useState(initialUser.picture);
   useEffect(() => {
     getcurrentUser();
   }, []);
@@ -21,7 +23,26 @@ const EditUser = () => {
     dispatch(getUser()).then((res) => {
       setUser({ ...res.currentuser, password: "", repeatPassword: "" });
     });
+  const uploadImage = (e) => {
+    e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("upload_preset", "uuz0hdpn");
+    // axios.defaults.withCredentials = false;
+    axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dofqvjuui/image/upload",
+        formData,
+        { withCredentials: false }
+      )
+      .then(({ data }) => {
+        setPic(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handelInputChange = (event) => {
     // console.log(event.target.value)
 
@@ -30,14 +51,20 @@ const EditUser = () => {
   };
   const onSubmitForm = (event) => {
     event.preventDefault();
+    console.log(pic);
+    user.picture = pic;
     console.log(user);
     if (user.password !== user.repeatPassword) {
       console.log("please repeat the password");
     }
-    dispatch(editAction(user)).then((res) => {
-      setUser({ ...res.data, password: "", repeatPassword: "" });
-    });
-    console.log("userAuth", user);
+    dispatch(editAction(user))
+      .then((res) => {
+        console.log(res);
+        setUser({ ...res.data, password: "", repeatPassword: "" });
+      })
+      .then((res) => {
+        getcurrentUser();
+      });
   };
 
   return (
@@ -52,7 +79,7 @@ const EditUser = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              New message
+              Edit your profile
             </h5>
             <button
               type="button"
@@ -63,25 +90,40 @@ const EditUser = () => {
           </div>
           <div className="modal-body">
             <form>
-              <div className="col-md-6 mb-4">
+              <div className="contact-form">
                 <div className="file-field">
-                  <div className="mb-4">
-                    <img
-                      src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-                      className="rounded-circle z-depth-1-half avatar-pic"
-                      alt="example placeholder avatar"
-                    />
-                  </div>
                   <div className="d-flex justify-content-center">
-                    <div className="btn btn-mdb-color btn-rounded float-left">
-                      <span>Add photo</span>
+                    <div className="form-group__file">
+                      <div className="file-wrapper">
+                        <label
+                          htmlFor="recipient-picture"
+                          className="col-form-label"
+                        >
+                          Change your profile Photo:
+                        </label>
 
-                      <input
-                        type="file"
-                        value={user.picture}
-                        onChange={handelInputChange}
-                        name="picture"
-                      />
+                        <input
+                          className="file-input"
+                          type="file"
+                          onChange={(e) => uploadImage(e)}
+                          name="picture"
+                        />
+                        {pic ? (
+                          <img
+                            src={pic}
+                            id="imagePreview"
+                            width="200px"
+                            className="file-preview"
+                          />
+                        ) : (
+                          <img
+                            src={user.picture}
+                            id="imagePreview"
+                            width="200px"
+                            className="file-preview"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -156,13 +198,6 @@ const EditUser = () => {
             </form>
           </div>
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
             <button
               type="submit"
               className="btn btn-primary"

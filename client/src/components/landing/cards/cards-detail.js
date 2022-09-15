@@ -1,13 +1,13 @@
-import react, { useEffect } from "react";
+import react, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CoursesDetails from "./cours-detail";
 const CardDetails = (props) => {
   const location = useLocation();
-
+  const data = location.state;
   useEffect(() => {
-    const data = location.state;
-    console.log("jjjjjjjjjjjj", data);
-  }, []);
+    console.log(data);
+  });
+
   return (
     <section className="blog-page spad pb-0">
       <div className="container">
@@ -15,19 +15,25 @@ const CardDetails = (props) => {
           <div className="col-lg-9">
             {/* <!-- blog post --> */}
             <div className="blog-post">
-              <img src="img/blog/1.jpg" alt="" />
-              <h3>How to create the perfect resume</h3>
+              <img src={data.picture} alt="" />
+              <h3>Subscribe to our course and get the best offers</h3>
+              <h4>{data.name}</h4>
+
               <div className="blog-metas">
                 <div className="blog-meta author">
                   <div
                     className="post-author set-bg"
                     // data-setbg="img/authors/1.jpg"
-                    style={{ backgroundImage: `url(img/authors/1.jpg)` }}
+                    style={{
+                      backgroundImage: `url(${data.teacher.picture})`,
+                    }}
                   ></div>
-                  <a href="/signup">James Smith</a>
+                  <a href="/signup">
+                    {data.teacher.firstname + "" + data.teacher.lastname}
+                  </a>
                 </div>
                 <div className="blog-meta">
-                  <a href="/signup">Development</a>
+                  <a href="/signup">{data.field}</a>
                 </div>
                 <div className="blog-meta">
                   <a href="/signup">June 12, 2018</a>
@@ -36,22 +42,15 @@ const CardDetails = (props) => {
                   <a href="/signup">2 Comments</a>
                 </div>
               </div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur. Phasellus sollicitudin
-                et nunc eu efficitur. Sed ligula nulla, molestie quis ligula in,
-                eleifend rhoncus ipsum. Donec ultrices, sem vel efficitur
-                molestie, massa nisl posuere ipsum, ut vulputate mauris ligula a
-                metus. Aenean vel congue diam, sed bibendum ipsum. Nunc
-                vulputate aliquet tristique. Integer et pellentesque urna.{" "}
-              </p>
+              <p>{data.description}</p>
               <a href="/signup" className="site-btn readmore">
-                Read More
+                Subscribe
               </a>
             </div>
           </div>
         </div>
       </div>
-      <CoursesDetails />
+      <CoursesDetails videos={data.videos} />
     </section>
   );
 };

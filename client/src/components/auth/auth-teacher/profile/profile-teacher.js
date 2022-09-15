@@ -1,10 +1,11 @@
 import EditTeacher from "./edit-teacher";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddCourse from "./add-course";
 import CourseCard from "./cours-card";
 import { signoutAction } from "../../../../actions/teacher-auth-actions";
+import teacherServices from "../../../../services/teacher-auth-services";
 const ProfileTeacher = () => {
   const [show, setShow] = useState("ALL_COURSES");
   const currentTeacher = useSelector((state) => state.authTeacherReducer);
@@ -15,29 +16,27 @@ const ProfileTeacher = () => {
       navigate("/");
     });
   };
+
   const changeView = (view) => {
     setShow(view);
   };
+
   return (
     <section style={{ backgroundColor: "#3e3e3e" }}>
       <div className="container py-5">
         <div className="row">
           <div className="col">
-            <nav className="main-menu">
-              <ul>
-                <a
-                  href="#"
-                  onClick={() => logout()}
-                  className="site-btn header-btn btn-pos"
-                >
+            <nav className="main-menu ">
+              <ul className="buttons_navigation">
+                <a href="#" onClick={() => logout()} className="site-btn">
                   Log out
+                </a>
+
+                <a href="/" className="site-btn">
+                  Home
                 </a>
               </ul>
             </nav>
-
-            <a href="/" className="site-btn header-btn">
-              Home
-            </a>
           </div>
         </div>
 
@@ -46,11 +45,12 @@ const ProfileTeacher = () => {
             <div className="card mb-4">
               <div className="card-body text-center">
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  src={currentTeacher.picture}
                   alt="avatar"
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
                 />
+
                 <h5 className="my-3">
                   {currentTeacher.firstname + " " + currentTeacher.lastname}
                 </h5>
@@ -77,7 +77,7 @@ const ProfileTeacher = () => {
                     className="list-group-item d-flex justify-content-between align-items-center p-3"
                   >
                     <i
-                      className="fab fa-github fa-lg"
+                      className="fa fa-user fa-lg"
                       style={{ color: "#333333" }}
                     ></i>
                     <p className="mb-0">Information</p>
@@ -86,7 +86,7 @@ const ProfileTeacher = () => {
                     onClick={() => changeView("ADD_COURSE")}
                     className="list-group-item d-flex justify-content-between align-items-center p-3"
                   >
-                    <i className="fas fa-globe fa-lg text-warning"></i>
+                    <i className="fa fa-plus-square fa-lg text-warning"></i>
                     <p className="mb-0">Add course</p>
                   </li>
                   <li
@@ -94,7 +94,7 @@ const ProfileTeacher = () => {
                     className="list-group-item d-flex justify-content-between align-items-center p-3"
                   >
                     <i
-                      className="fab fa-github fa-lg"
+                      className="fa fa-book fa-lg"
                       style={{ color: "#333333" }}
                     ></i>
                     <p className="mb-0">ALL your courses</p>

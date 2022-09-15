@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
+import Swal from "sweetalert2";
 import { signupAction } from "../../../actions/teacher-auth-actions";
 import { useNavigate } from "react-router-dom";
 function SignupTeacher() {
@@ -27,13 +28,38 @@ function SignupTeacher() {
   }, []);
   const onSubmitForm = (event) => {
     event.preventDefault();
-    console.log("hi"); // console.log(user)
-    if (user.passward !== user.repeatPassword) {
-      console.log("please repeat the password");
+    if (user.password !== user.repeatPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Your repeated password and password should be the same",
+      });
+    } else if (
+      user.password === "" ||
+      user.password === "" ||
+      user.email === "" ||
+      user.lastname === "" ||
+      user.firstname === ""
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "empthy field",
+      });
+    } else {
+      dispatch(signupAction(user))
+        .then((res) => {
+          Swal.fire("Good job!", "You clicked the button!", "success");
+          navigate("/");
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data[0].message,
+          });
+        });
     }
-    dispatch(signupAction(user)).then((res) => {
-      navigate("/");
-    });
   };
 
   return (
@@ -90,6 +116,14 @@ function SignupTeacher() {
                 <button type="submit" className="site-btn">
                   Sign up
                 </button>
+                <div>
+                  <p>
+                    If you have an account{" "}
+                    <a className="main-menu-link" href="/signin">
+                      Sign in
+                    </a>{" "}
+                  </p>
+                </div>
               </form>
             </div>
           </div>

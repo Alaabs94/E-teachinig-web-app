@@ -1,3 +1,7 @@
+import { signinUser, signupUser } from "../constants/auth-types";
+import { getTeacher } from "../actions/teacher-auth-actions";
+import { signinTeacher, signupTeacher } from "../constants/teacher-auth-types";
+
 const logger = (store) => (next) => (action) => {
   console.group(action.type);
   console.info("dispatching", action);
@@ -6,5 +10,18 @@ const logger = (store) => (next) => (action) => {
   console.groupEnd();
   return result;
 };
+const getCurrentUser = (store) => (next) => (action) => {
+  if (
+    action.type === signinTeacher ||
+    action.type === signupTeacher
+    // action.type === signinUser ||
+    // action.type === signupUser
+  ) {
+    store.dispatch(getTeacher()).then((res) => {
+      console.log(res);
+    });
+  }
 
-export default logger;
+  next(action);
+};
+export { logger, getCurrentUser };

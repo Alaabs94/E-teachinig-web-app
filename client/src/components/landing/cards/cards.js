@@ -1,66 +1,106 @@
-import React, { useEffect, useState } from "react";
-import { showAction } from "../../../actions/course-action";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-const Cards = () => {
-  const [course, setCourse] = useState([]);
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-  const dispatch = useDispatch();
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+const Cards = ({ courses, updateCourse }) => {
+  const [searchCourses, setSearch] = useState([]);
+  const [field, setField] = useState([]);
+  const [newField, setNewField] = useState([]);
+  const [updater, setUpdater] = useState(false);
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+  const typeUser = useSelector((state) => state.authReducer.type);
+  const typeTeacher = useSelector((state) => state.authTeacherReducer.type);
 
   useEffect(() => {
-    dispatch(showAction()).then((res) => {
-      console.log("yu-hikoplp", res);
-      setCourse(res);
-    });
-  }, []);
+    setSearch(courses);
+    setNewField(courses);
+    setField(courses);
+  }, [updateCourse]);
+
+  const onReloadState = (e) => {
+    setNewField(courses);
+  };
+
+  const onSearchByClick = (e, f) => {
+    e.preventDefault();
+
+    const findCommons = searchCourses.filter((c) => c.field.includes(f));
+    setNewField(findCommons);
+  };
+  const groupCard = (f, el) => {
+    return (
+      <Link
+        to={`${f}`}
+        state={el}
+        className="mix col-lg-3 col-md-4 col-sm-6 finance"
+        key={el.id}
+      >
+        {" "}
+        <div
+          className="course-item"
+          style={{ backgroundImage: `url(${el.picture})` }}
+        >
+          <div className="course-thumb set-bg">
+            {teacherAuth ? (
+              <div className="price">you should be a student to subscribe</div>
+            ) : (
+              <div className="price">Subscribe</div>
+            )}
+          </div>
+          <div className="course-info">
+            <div className="course-text">
+              <h5>{el.name}</h5>
+              <p>{el.description}</p>
+              <div className="students">{el.users.length}</div>
+            </div>
+            <div className="course-author">
+              <div
+                className="ca-pic set-bg"
+                style={{ backgroundImage: `url(${el.picture})` }}
+              ></div>
+              <p>
+                {el.teacher.firstname + " " + el.teacher.lastname},{" "}
+                <span>{el.field}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  };
   return (
     <section className="course-section spad pb-0">
       {/* course section */}
       <div className="course-warp">
         <ul className="course-filter controls">
-          {course.map((el) => (
-            <li key={el.id} className="control active" data-filter="all">
+          <li
+            onClick={(e) => onReloadState(e)}
+            className="control active"
+            data-filter="all"
+          >
+            All
+          </li>
+          {field.map((el) => (
+            <li
+              onClick={(e) => onSearchByClick(e, el.field)}
+              key={el.id}
+              className="control active"
+              data-filter="all"
+            >
               {el.field}
             </li>
           ))}
         </ul>
         <div className="row course-items-area">
           {/* course */}
-          {course.map((el) => (
-            <Link
-              to={`/card/${el.id}`}
-              state={el}
-              className="mix col-lg-3 col-md-4 col-sm-6 finance"
-              key={el.id}
-            >
-              {" "}
-              <div
-                className="course-item"
-                style={{ backgroundImage: `url(${el.picture})` }}
-              >
-                <div className="course-thumb set-bg">
-                  <div className="price">Price: $15</div>
-                </div>
-                <div className="course-info">
-                  <div className="course-text">
-                    <h5>{el.name}</h5>
-                    <p>{el.description}</p>
-                    <div className="students">{el.users.length}</div>
-                  </div>
-                  <div className="course-author">
-                    <div
-                      className="ca-pic set-bg"
-                      style={{ backgroundImage: `url(${el.picture})` }}
-                    ></div>
-                    <p>
-                      {el.teacher.firstname + " " + el.teacher.lastname},{" "}
-                      <span>{el.field}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+          {newField.map((el) =>
+            // groupCard(`/card/${el.id}`, el)
+            auth || teacherAuth
+              ? groupCard(`/card/${el.id}`, el)
+              : groupCard("/signin", el)
+          )}
         </div>
       </div>
       {/* course section end */}

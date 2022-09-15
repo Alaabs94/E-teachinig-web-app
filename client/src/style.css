@@ -16,7 +16,9 @@ body {
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
 }
-
+a {
+  text-decoration: none;
+}
 h1,
 h2,
 h3,
@@ -662,10 +664,10 @@ ol {
   border-bottom: 2px solid #d82a4e;
 }
 
-.signup-form input[type="file"],
+/* .signup-form input[type="file"],
 .contact-form input[type="file"] {
   display: none;
-}
+} */
 
 .signup-form textarea,
 .contact-form textarea {
@@ -1759,4 +1761,93 @@ ol {
   .contact-info-area .social-links a {
     margin-right: 10px;
   }
+}
+.main-menu-link {
+  text-decoration: none !important;
+}
+.btn-group-top {
+  float: right;
+}
+.site-btn-register {
+  text-decoration: none;
+}
+/* ##################################  file input css     ########################################## */
+.form-group__file {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  min-width: 130px;
+  height: 180px;
+}
+
+.file-label {
+  margin: 10px 0;
+}
+
+.file-input {
+  opacity: 0;
+  position: absolute;
+  top: 46px;
+  left: 34%;
+  right: 0;
+  bottom: 0;
+  width: 130px;
+  height: 180px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.file-preview {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 46px;
+  left: 34%;
+  border-radius: 65px;
+  z-index: 10;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+}
+.file-preview-item {
+  width: 500px;
+  height: 372px;
+  position: absolute;
+  top: 46px;
+  left: 34%;
+  border-radius: 10px;
+  z-index: 10;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+}
+.file-input-item {
+  opacity: 0;
+  position: absolute;
+  top: 46px;
+  left: 34%;
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  height: 372px;
+  cursor: pointer;
+  z-index: 100;
+}
+.file-form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  width: 100%;
+  width: 500px;
+  height: 372px;
+}
+.buttons_navigation {
+  display: flex;
+  margin-bottom: 10px;
+  /* flex direction:""; */
+  gap: 10px;
+  float: right;
+  /* margin: 10px 10px; */
 }

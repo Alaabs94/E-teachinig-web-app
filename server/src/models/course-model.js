@@ -12,6 +12,7 @@ const CourseSchema = new mongoose.Schema(
         "https://petite-ecole-francaise.com/wp-content/uploads/2017/04/cours_francais_enfants-300x300.jpg",
     },
     field: { type: String, default: "development" },
+    videos: { type: Array, default: [] },
   },
   {
     toJSON: {

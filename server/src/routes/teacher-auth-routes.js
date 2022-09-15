@@ -15,12 +15,7 @@ teacherRoutes.post(
 );
 teacherRoutes.get("/signout", userAuth.signout);
 teacherRoutes.post("/signin", userAuth.signin);
-teacherRoutes.get(
-  "/currentuser",
-  midUser.currentuser,
-  midUser.passports,
-  userAuth.currentTeacher
-);
+teacherRoutes.get("/currentuser", midUser.currentuser, userAuth.currentTeacher);
 teacherRoutes.put(
   "/editteacher",
   body("email").isEmail().withMessage("email must be valid"),

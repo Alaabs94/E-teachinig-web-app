@@ -1,7 +1,10 @@
 import React from "react";
 import Dropdowns from "../../UI-components/dropdowns";
-
+import { useSelector } from "react-redux";
 const Header = () => {
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+  const typeUser = useSelector((state) => state.authReducer.type);
   return (
     // <!-- Header section -->
     <header className="header-section">
@@ -11,28 +14,57 @@ const Header = () => {
             <div className="site-logo">
               <img src="img/logo.png" alt="" />
             </div>
-            <div className="nav-switch">
-              <i className="fa fa-bars"></i>
-            </div>
           </div>
-          <div className="col-lg-9 col-md-9">
+          <div className="col-lg-10 col-md-10">
             <Dropdowns />
             <nav className="main-menu">
               <ul>
                 <li>
-                  <a href="index.html">Home</a>
+                  <a className="main-menu-link" href="/">
+                    Home
+                  </a>
+                </li>
+                {teacherAuth || auth ? (
+                  typeUser ? (
+                    <li>
+                      <a className="main-menu-link" href="/student">
+                        Your profile
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <a className="main-menu-link" href="/teacher">
+                        Your profile
+                      </a>
+                    </li>
+                  )
+                ) : typeUser ? (
+                  <li>
+                    <a className="main-menu-link" href="/signin">
+                      Your profile
+                    </a>
+                  </li>
+                ) : (
+                  <li>
+                    <a className="main-menu-link" href="/signinteacher">
+                      Your profile
+                    </a>
+                  </li>
+                )}
+                <li>
+                  <a className="main-menu-link" href="/signinteacher">
+                    Courses
+                  </a>
                 </li>
                 <li>
-                  <a href="#">About us</a>
+                  <a className="main-menu-link" href="blog.html">
+                    News
+                  </a>
                 </li>
                 <li>
-                  <a href="courses.html">Courses</a>
-                </li>
-                <li>
-                  <a href="blog.html">News</a>
-                </li>
-                <li>
-                  <a href="contact.html">Contact</a>
+                  <a className="main-menu-link" href="contact.html">
+                    Contact
+                  </a>
                 </li>
               </ul>
             </nav>

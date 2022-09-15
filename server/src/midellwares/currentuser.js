@@ -6,6 +6,7 @@ exports.currentuser = (req, res, next) => {
   try {
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY);
     req.currentuser = payload;
+    // console.log(payload);
   } catch (error) {}
   next();
 };

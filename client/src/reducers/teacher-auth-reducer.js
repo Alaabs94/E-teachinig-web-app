@@ -17,8 +17,11 @@ const authTeacherReducer = (initialState = user, action) => {
     case signinTeacher:
     case signupTeacher:
     case editTeacher:
+      return { ...action.payload, auth: true, type: "teacher" };
     case currentTeacher:
-      return { ...action.payload, auth: true };
+      return action.payload
+        ? { ...action.payload, auth: true, type: "teacher" }
+        : { ...action.payload, auth: false, type: "teacher" };
     case failSigninTeacher:
     case failSignupTeacher:
     case failSignoutTeacher:

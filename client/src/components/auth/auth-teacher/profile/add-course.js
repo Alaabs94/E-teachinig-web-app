@@ -12,12 +12,41 @@ const AddCourse = () => {
     description: "",
     field: "",
     picture: "",
+    videos: [],
   };
+  const [source, setSource] = useState([]);
   const [course, setCourse] = useState(initialCourse);
+
   const [pic, setPic] = useState(
     "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
   );
 
+  const handleFileChangeVideo = (event) => {
+    const file = event.target.files;
+    console.log(file);
+    const chosenFiles = Array.prototype.slice.call(file);
+    const uploaded = [...source];
+
+    chosenFiles.some((f) => {
+      console.log("file", f);
+      const formData = new FormData();
+      formData.append("file", f);
+      formData.append("upload_preset", "uuz0hdpn");
+      // axios.defaults.withCredentials = false;
+      axios
+        .post("https://api.cloudinary.com/v1_1/dofqvjuui/upload", formData, {
+          withCredentials: false,
+        })
+        .then(({ data }) => {
+          console.log(data.url);
+          uploaded.push(data.url);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+    setSource(uploaded);
+  };
   const handelInputChange = (event) => {
     // console.log(event.target.value)
 
@@ -28,7 +57,9 @@ const AddCourse = () => {
   const uploadImage = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("file", pic);
+
+    console.log(e.target.files[0]);
+    formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "uuz0hdpn");
     // axios.defaults.withCredentials = false;
     axios
@@ -48,6 +79,7 @@ const AddCourse = () => {
   const onSubmitForm = (event) => {
     event.preventDefault();
     course.picture = pic;
+    course.videos = source;
     console.log("course", course);
     dispatch(createAction(course)).then((res) => {
       setCourse(initialCourse);
@@ -57,35 +89,35 @@ const AddCourse = () => {
   return (
     <div className="modal-dialog">
       <div className="modal-content">
-        <div className="modal-body">
+        <div
+          className="modal-body"
+          style={{
+            backgroundColor: "white",
+            padding: "40px",
+            borderRadius: "10px",
+          }}
+        >
           <form>
             <div className="col-md-6 mb-4">
               <div className="file-field">
-                <div className="mb-4">
+                <div className="d-flex justify-content-center file-form">
+                  <label htmlFor="recipient-pic" className="col-form-label">
+                    Add photo
+                  </label>
+
+                  <input
+                    className="file-input-item"
+                    type="file"
+                    onChange={(e) => uploadImage(e)}
+                    name="picture"
+                  />
+
                   <img
                     src={pic}
-                    className="rounded-circle z-depth-1-half avatar-pic"
-                    alt="example placeholder avatar"
+                    id="imagePreview"
+                    width="200px"
+                    className="file-preview-item"
                   />
-                </div>
-                <div className="d-flex justify-content-center">
-                  <div className="btn btn-mdb-color btn-rounded float-left">
-                    <span>Add photo</span>
-
-                    <input
-                      type="file"
-                      //   value={pic}
-                      onChange={(event) => setPic(event.target.files[0])}
-                      name="picture"
-                    />
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      onClick={(e) => uploadImage(e)}
-                    >
-                      Confirm
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -129,8 +161,8 @@ const AddCourse = () => {
                 id="message-text"
               ></textarea>
             </div>
-            {/* <div className="mb-3">
-              <label for="formFileMultiple" className="form-label">
+            <div className="mb-3">
+              <label htmlFor="formFileMultiple" className="form-label">
                 Multiple files input example
               </label>
               <input
@@ -141,24 +173,17 @@ const AddCourse = () => {
                 onChange={handleFileChangeVideo}
                 accept=".mov,.mp4"
               />
-            </div> */}
+            </div>
           </form>
-        </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={(e) => onSubmitForm(e)}
-          >
-            Confirm
-          </button>
+          <div className="modal-footer">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={(e) => onSubmitForm(e)}
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       </div>
     </div>

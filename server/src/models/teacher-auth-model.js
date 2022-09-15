@@ -9,7 +9,11 @@ const TeacherSchema = new mongoose.Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     description: { type: String, default: "Add some description here" },
-    picture: { type: String, default: null },
+    picture: {
+      type: String,
+      default:
+        "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
+    },
   },
   {
     toJSON: {

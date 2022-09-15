@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
 import { signinAction } from "../../../actions/teacher-auth-actions";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function SigninTeacher(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [error, setError] = useState([]);
   const currentUser = useSelector((state) => state.authReducer.auth);
 
   const initialUser = {
@@ -27,14 +28,27 @@ function SigninTeacher(props) {
   };
   const onSubmitForm = (event) => {
     event.preventDefault();
-    console.log("hi"); // console.log(user)
-    if (user.passward !== user.repeatPassword) {
-      console.log("please repeat the password");
+
+    if (user.password === "" || user.password === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "empthy field",
+      });
+    } else {
+      dispatch(signinAction(user))
+        .then((res) => {
+          Swal.fire("Good job!", "You clicked the button!", "success");
+          navigate("/");
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data[0].message,
+          });
+        });
     }
-    dispatch(signinAction(user)).then((res) => {
-      navigate("/");
-      console.log("currentUser", currentUser);
-    });
   };
 
   return (
@@ -70,6 +84,14 @@ function SigninTeacher(props) {
                 <button type="submit" className="site-btn">
                   Sign in
                 </button>
+                <div>
+                  <p>
+                    If you don't have an account{" "}
+                    <a className="main-menu-link" href="/signup">
+                      Sign up
+                    </a>
+                  </p>
+                </div>
               </form>
             </div>
           </div>

@@ -1,52 +1,57 @@
-import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
-import {signinAction} from '../../../actions/auth-action'
-import {useNavigate} from "react-router-dom"
-
+import { signinAction } from "../../../actions/auth-action";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Signin(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  
-  const currentUser = useSelector(state => state.authReducer.auth);
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector((state) => state.authReducer.auth);
 
   const initialUser = {
-    
-    email : '',
-    password: '',
-    
-    
-  }
+    email: "",
+    password: "",
+  };
 
-    useEffect(()=>{
-    console.log(currentUser)
-  },[])
-      const [user,setUser] = useState(initialUser)
-      const handelInputChange = (event)=>{
-        // console.log(event.target.value)
-     
-        const {name , value} = event.target
-        setUser({...user,[name] : value})
-        
-      }
-    const onSubmitForm = (event) => {
-      event.preventDefault()
-      console.log('hi')      // console.log(user)
-         if (user.passward!== user.repeatPassword){
-          console.log('please repeat the password')
+  useEffect(() => {
+    console.log(currentUser);
+  }, []);
+  const [user, setUser] = useState(initialUser);
+  const handelInputChange = (event) => {
+    // console.log(event.target.value)
 
-        }
-      dispatch(signinAction(user)).then(res=>{
-        navigate("/")
-        console.log("currentUser",currentUser)
-      })
-    
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+  const onSubmitForm = (event) => {
+    event.preventDefault();
 
-     }
+    if (user.password === "" || user.password === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "empthy field",
+      });
+    } else {
+      dispatch(signinAction(user))
+        .then((res) => {
+          Swal.fire("Good job!", "You clicked the button!", "success");
+          navigate("/");
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data[0].message,
+          });
+        });
+    }
+  };
 
   return (
-
     <section className="contact-page spad pb-0">
       <div className="container">
         <div className="row">
@@ -54,28 +59,51 @@ function Signin(props) {
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
                 <h2>Get in Touch</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  malesuada lorem maximus mauris scelerisque, at rutrum nulla
+                  dictum. Ut ac ligula sapien.{" "}
+                </p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
-                
-                <input name="email" value={user.email} onChange={handelInputChange} type="email" placeholder="Your E-mail"/>
-                <input name="password" value={user.password} onChange={handelInputChange} type="password" placeholder="Your password"/>
-                
-                
-                <button  type="submit" className="site-btn">Sign in</button>
+                <input
+                  name="email"
+                  value={user.email}
+                  onChange={handelInputChange}
+                  type="email"
+                  placeholder="Your E-mail"
+                />
+                <input
+                  name="password"
+                  value={user.password}
+                  onChange={handelInputChange}
+                  type="password"
+                  placeholder="Your password"
+                />
+
+                <button type="submit" className="site-btn">
+                  Sign in
+                </button>
+                <div>
+                  <p>
+                    If you don't have an account{" "}
+                    <a className="main-menu-link" href="/signup">
+                      Sign up
+                    </a>{" "}
+                    <a className="main-menu-link" href="/signup">
+                      Sign up
+                    </a>
+                  </p>
+                </div>
               </form>
             </div>
           </div>
           {/* begin */}
-          <Contacts/>
+          <Contacts />
           {/* end */}
         </div>
-      
       </div>
     </section>
-
-  
-   
   );
 }
 
