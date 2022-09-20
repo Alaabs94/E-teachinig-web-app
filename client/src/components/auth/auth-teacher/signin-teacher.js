@@ -38,7 +38,7 @@ function SigninTeacher(props) {
     } else {
       dispatch(signinActionTeacher(user))
         .then((res) => {
-          Swal.fire("Good job!", "You clicked the button!", "success");
+          Swal.fire("Good job!", "You login successfully!", "success");
           navigate("/");
         })
         .catch((err) => {
@@ -58,8 +58,8 @@ function SigninTeacher(props) {
           <div className="col-lg-6">
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
-                <h2>Get in Touch</h2>
-                <p>Sign in as a Teacher</p>
+                <h2>Sign in as teacher</h2>
+                <p>Welcome back, add new courses and stay updated</p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input
@@ -83,7 +83,7 @@ function SigninTeacher(props) {
                 <div>
                   <p>
                     If you don't have an account{" "}
-                    <a className="main-menu-link" href="/signup">
+                    <a className="main-menu-link" href="/signupteacher">
                       Sign up
                     </a>
                   </p>

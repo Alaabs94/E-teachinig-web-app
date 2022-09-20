@@ -21,8 +21,7 @@ const CardDetails = () => {
   const subscriberStatus = () => {
     const courseId = el.id;
     const userId = data.userInfo.id;
-    // console.log("courseId", el.id);
-    // console.log("userId", data.userInfo.id);
+
     if (data.auth === true) {
       dispatch(getStatusAction(courseId, userId)).then((res) => {
         console.log(el.id, res.subscription);
@@ -99,7 +98,7 @@ const CardDetails = () => {
           </div>
         </div>
       </div>
-      <CoursesDetails videos={el.videos} />
+      {status && <CoursesDetails videos={el.videos} />}
     </section>
   );
 };

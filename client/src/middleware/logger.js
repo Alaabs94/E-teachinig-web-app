@@ -1,5 +1,5 @@
-import { signinUser, signupUser } from "../constants/auth-types";
 import { getTeacher } from "../actions/teacher-auth-actions";
+import { getUser } from "../actions/auth-action";
 import { signinTeacher, signupTeacher } from "../constants/teacher-auth-types";
 
 const logger = (store) => (next) => (action) => {
@@ -11,10 +11,14 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 const getCurrentUser = (store) => (next) => (action) => {
-  store.dispatch(getTeacher()).then((res) => {
-    console.log(res);
-  });
-
-  next(action);
+  // store
+  //   .dispatch(getTeacher())
+  //   .then((res) => {
+  //     console.log(res);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // next(action);
 };
 export { logger, getCurrentUser };

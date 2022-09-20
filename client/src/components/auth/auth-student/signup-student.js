@@ -70,12 +70,8 @@ function Signup() {
           <div className="col-lg-6">
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
-                <h2>Get in Touch</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  malesuada lorem maximus mauris scelerisque, at rutrum nulla
-                  dictum. Ut ac ligula sapien.{" "}
-                </p>
+                <h2>Sign up as student</h2>
+                <p>Join the millions and learn and improve your skills</p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input

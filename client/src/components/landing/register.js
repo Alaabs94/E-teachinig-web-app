@@ -28,9 +28,9 @@ const Register = () => {
         <div className="section-title mb-0 pb-2">
           <h2>Join Our Community Now!</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum.
-            Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
+            Upskill yourself and build a culture of learning. Executive
+            Education courses from top universities offer the skills you need to
+            pivot and expand your career.
           </p>
         </div>
 

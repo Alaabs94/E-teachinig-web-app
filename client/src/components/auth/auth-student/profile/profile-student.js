@@ -2,18 +2,28 @@ import react, { useState, useEffect } from "react";
 import EditUser from "./edit-user";
 import PersonalCourse from "./personal-course";
 import React from "react";
+import { showAction } from "../../../../actions/course-action";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signoutAction } from "../../../../actions/auth-action";
 const ProfileUser = () => {
-  const [show, setShow] = useState("ALL_COURSES");
+  const [show, setShow] = useState("INFORMATION");
+  const [course, setCourse] = useState([]);
 
-  const currentuser = useSelector((state) => state.authReducer);
-  useEffect(() => {
-    console.log(currentuser);
-  });
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+  const userInfo = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    getAllCoursesById();
+  }, []);
+  const getAllCoursesById = () => {
+    dispatch(showAction()).then((data) => {
+      setCourse(data);
+    });
+  };
+
   const logout = () => {
     dispatch(signoutAction()).then((res) => {
       navigate("/");
@@ -51,16 +61,16 @@ const ProfileUser = () => {
             <div className="card mb-4">
               <div className="card-body text-center">
                 <img
-                  src={currentuser.picture}
+                  src={userInfo.picture}
                   alt="avatar"
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
                 />
                 <h5 className="my-3">
-                  {currentuser.firstname + " " + currentuser.lastname}
+                  {userInfo.firstname + " " + userInfo.lastname}
                 </h5>
                 <p className="text-muted mb-1">Student</p>
-                <p className="text-muted mb-4">{currentuser.description}</p>
+                <p className="text-muted mb-4">{userInfo.description}</p>
                 <div className="d-flex justify-content-center mb-2">
                   <a
                     href="#"
@@ -109,7 +119,7 @@ const ProfileUser = () => {
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">
-                        {currentuser.firstname + " " + currentuser.lastname}
+                        {userInfo.firstname + " " + userInfo.lastname}
                       </p>
                     </div>
                   </div>
@@ -119,7 +129,7 @@ const ProfileUser = () => {
                       <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{currentuser.email}</p>
+                      <p className="text-muted mb-0">{userInfo.email}</p>
                     </div>
                   </div>
                   <hr />
@@ -157,7 +167,12 @@ const ProfileUser = () => {
           )}
           {show === "ALL_COURSES" && (
             <div className="col-lg-8">
-              <PersonalCourse />
+              <PersonalCourse
+                course={course}
+                userInfo={userInfo}
+                teacherAuth={teacherAuth}
+                auth={auth}
+              />
             </div>
           )}
         </div>

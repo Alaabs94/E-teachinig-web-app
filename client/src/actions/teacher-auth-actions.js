@@ -68,13 +68,14 @@ export const getTeacher = () => async (dispatch) => {
       type: currentTeacher,
       payload: res.data.currentuser,
     });
-    return Promise.resolve(res.data);
+    console.log("res.data.currentuser", res.data.currentuser);
+    return Promise.resolve(res.data.currentuser);
   } catch (error) {
     dispatch({
       type: failCurrentTeacher,
       payload: error.response.data,
     });
-    return Promise.reject(error);
+    return Promise.reject(error.response.data);
   }
 };
 

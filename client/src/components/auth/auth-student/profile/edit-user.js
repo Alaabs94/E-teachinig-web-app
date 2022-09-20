@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
+
 import axios from "axios";
 import { editAction, getUser } from "../../../../actions/auth-action";
 const EditUser = () => {
@@ -14,15 +16,19 @@ const EditUser = () => {
     picture: "",
     description: "",
   };
+
   const [user, setUser] = useState(initialUser);
-  const [pic, setPic] = useState(initialUser.picture);
+  const [pic, setPic] = useState("");
+  const getcurrentUser = () =>
+    dispatch(getUser()).then((res) => {
+      setUser({ ...res, password: "", repeatPassword: "" });
+      console.log("user.picture", res.picture);
+      setPic(res.picture);
+    });
   useEffect(() => {
     getcurrentUser();
   }, []);
-  const getcurrentUser = () =>
-    dispatch(getUser()).then((res) => {
-      setUser({ ...res.currentuser, password: "", repeatPassword: "" });
-    });
+
   const uploadImage = (e) => {
     e.preventDefault();
 
@@ -51,15 +57,45 @@ const EditUser = () => {
   };
   const onSubmitForm = (event) => {
     event.preventDefault();
-    console.log(pic);
+
     user.picture = pic;
-    console.log(user);
     if (user.password !== user.repeatPassword) {
-      console.log("please repeat the password");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Your repeated password and password should be the same",
+      });
+    } else if (
+      user.password === "" ||
+      user.password === "" ||
+      user.email === "" ||
+      user.lastname === "" ||
+      user.description === "" ||
+      user.firstname === ""
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "empthy field",
+      });
+    } else {
+      dispatch(editAction(user))
+        .then((res) => {
+          getcurrentUser();
+          Swal.fire(
+            "Good job!",
+            "your profile is updated succefully!",
+            "success"
+          );
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data[0].message,
+          });
+        });
     }
-    dispatch(editAction(user)).then((res) => {
-      getcurrentUser();
-    });
   };
 
   return (
@@ -103,21 +139,13 @@ const EditUser = () => {
                           onChange={(e) => uploadImage(e)}
                           name="picture"
                         />
-                        {pic ? (
-                          <img
-                            src={pic}
-                            id="imagePreview"
-                            width="200px"
-                            className="file-preview"
-                          />
-                        ) : (
-                          <img
-                            src={user.picture}
-                            id="imagePreview"
-                            width="200px"
-                            className="file-preview"
-                          />
-                        )}
+
+                        <img
+                          src={pic}
+                          id="imagePreview"
+                          width="200px"
+                          className="file-preview"
+                        />
                       </div>
                     </div>
                   </div>

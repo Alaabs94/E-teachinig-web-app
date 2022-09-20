@@ -49,7 +49,7 @@ function SignupTeacher() {
     } else {
       dispatch(signupAction(user))
         .then((res) => {
-          Swal.fire("Good job!", "You clicked the button!", "success");
+          Swal.fire("Good job!", "You sign up successfully!", "success");
           navigate("/");
         })
         .catch((err) => {
@@ -69,12 +69,8 @@ function SignupTeacher() {
           <div className="col-lg-6">
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
-                <h2>Get in Touch</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  malesuada lorem maximus mauris scelerisque, at rutrum nulla
-                  dictum. Ut ac ligula sapien.{" "}
-                </p>
+                <h2>Sign up as teacher</h2>
+                <p>Get the opportunity to show yourself as the best teacher.</p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input
@@ -119,7 +115,7 @@ function SignupTeacher() {
                 <div>
                   <p>
                     If you have an account{" "}
-                    <a className="main-menu-link" href="/signin">
+                    <a className="main-menu-link" href="/signinteacher">
                       Sign in
                     </a>{" "}
                   </p>

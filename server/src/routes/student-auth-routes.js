@@ -23,7 +23,7 @@ studentRoutes.get(
 );
 studentRoutes.put(
   "/edituser",
-  body("email").isEmail().withMessage("email must be valid"),
+
   body("password")
     .trim()
     .isLength({ min: 5, max: 20 })

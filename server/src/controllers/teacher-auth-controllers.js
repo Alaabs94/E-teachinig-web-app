@@ -98,7 +98,7 @@ exports.editTeacher = async function (req, res) {
   } else {
     const changePassword = await passwordChange.toHash(req.body.password);
     const user = await Teacher.findOneAndUpdate(
-      { email },
+      { email: req.currentuser.email },
 
       {
         firstname: req.body.firstname,
@@ -109,7 +109,7 @@ exports.editTeacher = async function (req, res) {
       }
     );
 
-    const existUser = await Teacher.findOne({ email });
+    const existUser = await Teacher.findOne({ email: req.currentuser.email });
 
     const userJwt = jwt.sign(
       {

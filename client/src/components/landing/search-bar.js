@@ -9,9 +9,8 @@ const SearchBar = ({ searchOnChange, searchOnChangeField, submitSearch }) => {
         <div className="hero-text text-white">
           <h2>Get The Best Free Online Courses</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            malesuada lorem maximus mauris scelerisque, at rutrum nulla <br />{" "}
-            dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.
+            Propel your career, get a degree, or expand your knowledge at any
+            level. <br /> Expand your curriculum through blended learning.
           </p>
         </div>
         <div className="search-warp">

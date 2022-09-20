@@ -107,7 +107,7 @@ exports.editUser = async function (req, res) {
       },
     }
   );
-  const existUser = await Teacher.findOne({ email });
+  const existUser = await Student.findOne({ email: req.currentuser.email });
   const userJwt = jwt.sign(
     {
       id: existUser.id,
@@ -121,7 +121,7 @@ exports.editUser = async function (req, res) {
   );
 
   req.session = {
-    jwt: existUser,
+    jwt: userJwt,
   };
 
   res.status(201).send(user);

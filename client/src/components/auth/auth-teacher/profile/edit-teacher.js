@@ -21,8 +21,8 @@ const EditTeacher = () => {
   };
   const [isloading, setIsloading] = useState(false);
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
-  const [pic, setPic] = useState(initialUser.picture);
   const [user, setUser] = useState(initialUser);
+  const [pic, setPic] = useState("");
   useEffect(() => {
     getcurrentTeacher();
   }, []);
@@ -52,7 +52,8 @@ const EditTeacher = () => {
   const getcurrentTeacher = () =>
     dispatch(getTeacher()).then((res) => {
       console.log("res", res);
-      setUser({ ...res.currentuser, password: "", repeatPassword: "" });
+      setUser({ ...res, password: "", repeatPassword: "" });
+      setPic(res.picture);
     });
 
   const handelInputChange = (event) => {
@@ -87,10 +88,24 @@ const EditTeacher = () => {
       });
     }
     setIsloading(true);
-    dispatch(editAction(user)).then((res) => {
-      getcurrentTeacher();
-      setIsloading(false);
-    });
+    dispatch(editAction(user))
+      .then((res) => {
+        getcurrentTeacher();
+        setIsloading(false);
+        Swal.fire(
+          "Good job!",
+          "your profile is updated succefully!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        setIsloading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data[0].message,
+        });
+      });
   };
 
   return (
@@ -141,16 +156,16 @@ const EditTeacher = () => {
                         ) : (
                           <div></div>
                         )}
-                        {pic ? (
+                        {user.picture ? (
                           <img
-                            src={pic}
+                            src={user.picture}
                             id="imagePreview"
                             width="200px"
                             className="file-preview"
                           />
                         ) : (
                           <img
-                            src={user.picture}
+                            src={pic}
                             id="imagePreview"
                             width="200px"
                             className="file-preview"

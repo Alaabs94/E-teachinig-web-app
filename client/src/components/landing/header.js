@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import Dropdowns from "../../UI-components/dropdowns";
 import { useSelector } from "react-redux";
+
 const Header = () => {
   const auth = useSelector((state) => state.authReducer.auth);
   const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
-  const typeUser = useSelector((state) => state.authReducer.type);
+
   useEffect(() => {
     console.log(auth);
     console.log(teacherAuth);

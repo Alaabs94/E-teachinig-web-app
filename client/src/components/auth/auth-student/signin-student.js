@@ -58,8 +58,8 @@ function Signin(props) {
           <div className="col-lg-6">
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
-                <h2>Get in Touch</h2>
-                <p>Sign in as a student</p>
+                <h2>Sign in as a student</h2>
+                <p>Welcome back, there"s new courses, go fast and subscribe </p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input
@@ -86,9 +86,6 @@ function Signin(props) {
                     <a className="main-menu-link" href="/signup">
                       Sign up
                     </a>{" "}
-                    <a className="main-menu-link" href="/signup">
-                      Sign up
-                    </a>
                   </p>
                 </div>
               </form>

@@ -18,7 +18,6 @@ teacherRoutes.post("/signin", userAuth.signin);
 teacherRoutes.get("/currentuser", midUser.currentuser, userAuth.currentTeacher);
 teacherRoutes.put(
   "/editteacher",
-  body("email").isEmail().withMessage("email must be valid"),
   body("password")
     .trim()
     .isLength({ min: 5, max: 20 })

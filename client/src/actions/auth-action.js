@@ -43,7 +43,7 @@ export const signinAction = (data) => async (dispatch) => {
       type: failSigninUser,
       payload: error.response.data,
     });
-    return Promise.reject(error);
+    return Promise.reject(error.response.data);
   }
 };
 export const signoutAction = () => async (dispatch) => {
@@ -70,7 +70,7 @@ export const getUser = () => async (dispatch) => {
       type: currentUser,
       payload: res.data.currentuser,
     });
-    return Promise.resolve(res.data);
+    return Promise.resolve(res.data.currentuser);
   } catch (error) {
     dispatch({
       type: failCurrentUser,
