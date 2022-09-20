@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 const CourseCard = () => {
   const [course, setCourse] = useState([]);
   const teacherId = useSelector((state) => state.authTeacherReducer);
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+  const userInfo = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
   console.log(teacherId.id);
   useEffect(() => {
@@ -21,7 +24,7 @@ const CourseCard = () => {
     <section className="categories-section spad">
       <div className="container">
         <div className="section-title">
-          <h2>Our Course Categories</h2>
+          <h2 style={{ color: "white" }}>Our Course Categories</h2>
         </div>
         <div className="row">
           {/* <!-- categorie --> */}
@@ -30,7 +33,12 @@ const CourseCard = () => {
             .map((el) => (
               <Link
                 to={`/card/${el.id}`}
-                state={el}
+                state={{
+                  el,
+                  auth: auth,
+                  teacherAuth: teacherAuth,
+                  userInfo: userInfo,
+                }}
                 // className="mix col-lg-3 col-md-4 col-sm-6 finance"
                 className="col-lg-4 col-md-6"
                 key={el.id}
@@ -42,8 +50,8 @@ const CourseCard = () => {
                     style={{ backgroundImage: `url(${el.picture})` }}
                   ></div>
                   <div className="ci-text">
-                    <h5>{el.name}</h5>
-                    <p>{el.description}</p>
+                    <h5>{el.name.split(" ").slice(0, 1).join(" ")}...</h5>
+                    <p>{el.description.split(" ").slice(0, 5).join(" ")}...</p>
                     <span>{el.teacher.firstname}</span>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createAction } from "../../../../actions/course-action";
 import axios from "axios";
@@ -14,42 +14,53 @@ const AddCourse = () => {
     picture: "",
     videos: [],
   };
+
+  const [loadVideo, setLoadVideo] = useState(false);
+
   const [source, setSource] = useState([]);
   const [course, setCourse] = useState(initialCourse);
 
   const [pic, setPic] = useState(
     "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
   );
+  // useEffect(() => {
+  //   setLoadVideo(true);
+  // }, []);
 
   const handleFileChangeVideo = (event) => {
+    // setLoadVideo(!loadVideo);
+
+    // console.log(checked)
     const file = event.target.files;
     console.log(file);
     const chosenFiles = Array.prototype.slice.call(file);
     const uploaded = [...source];
 
-    chosenFiles.some((f) => {
-      console.log("file", f);
+    chosenFiles.map((f) => {
       const formData = new FormData();
       formData.append("file", f);
       formData.append("upload_preset", "uuz0hdpn");
-      // axios.defaults.withCredentials = false;
+      setLoadVideo(true);
+
       axios
         .post("https://api.cloudinary.com/v1_1/dofqvjuui/upload", formData, {
           withCredentials: false,
         })
         .then(({ data }) => {
           console.log(data.url);
+
           uploaded.push(data.url);
+          setLoadVideo(false);
+          // setLoadVideo(false);
         })
         .catch((err) => {
           console.log(err);
         });
     });
+
     setSource(uploaded);
   };
   const handelInputChange = (event) => {
-    // console.log(event.target.value)
-
     const { name, value } = event.target;
     setCourse({ ...course, [name]: value });
   };
@@ -163,7 +174,7 @@ const AddCourse = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="formFileMultiple" className="form-label">
-                Multiple files input example
+                Add multiple videos
               </label>
               <input
                 className="form-control"
@@ -173,6 +184,13 @@ const AddCourse = () => {
                 onChange={handleFileChangeVideo}
                 accept=".mov,.mp4"
               />
+              {loadVideo === true ? (
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </form>
           <div className="modal-footer">

@@ -57,14 +57,9 @@ const EditUser = () => {
     if (user.password !== user.repeatPassword) {
       console.log("please repeat the password");
     }
-    dispatch(editAction(user))
-      .then((res) => {
-        console.log(res);
-        setUser({ ...res.data, password: "", repeatPassword: "" });
-      })
-      .then((res) => {
-        getcurrentUser();
-      });
+    dispatch(editAction(user)).then((res) => {
+      getcurrentUser();
+    });
   };
 
   return (

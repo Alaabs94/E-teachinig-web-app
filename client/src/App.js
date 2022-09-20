@@ -5,6 +5,7 @@ import SigninTeacher from "./components/auth/auth-teacher/signin-teacher";
 import SignupTeacher from "./components/auth/auth-teacher/signup-teacher";
 import ProfileTeacher from "./components/auth/auth-teacher/profile/profile-teacher";
 import { getTeacher } from "./actions/teacher-auth-actions";
+import { getUser } from "./actions/auth-action";
 import Signup from "./components/auth/auth-student/signup-student";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./components/landing/landing";
@@ -13,16 +14,31 @@ import Footer from "./components/landing/footer";
 import CardDetails from "./components/landing/cards/cards-detail";
 import "./style.css";
 function App() {
-  const [auth, setAuth] = useState();
+  const [authTeacher, setAuthTeacher] = useState({});
+  const [authUser, setAuthUser] = useState();
+
   const dispatch = useDispatch();
 
   const getcurrentTeacher = () => {
     dispatch(getTeacher()).then((res) => {
-      setAuth(res.currentUser);
+      setAuthTeacher(res.currentUser);
+    });
+  };
+  const getcurrentUser = () => {
+    dispatch(getUser()).then((res) => {
+      setAuthUser(res.currentUser);
     });
   };
   useEffect(() => {
     getcurrentTeacher();
+    getcurrentUser();
+  }, []);
+  const auth = useSelector((state) => state.authReducer.auth);
+  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
+  const typeUser = useSelector((state) => state.authReducer.type);
+  const typeTeacher = useSelector((state) => state.authTeacherReducer.type);
+  useEffect(() => {
+    console.log("typeUser", typeUser);
   }, []);
   return (
     <div className="App">

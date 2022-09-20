@@ -10,6 +10,17 @@ exports.currentuser = (req, res, next) => {
   } catch (error) {}
   next();
 };
+exports.currentUser2 = (req, res, next) => {
+  if (!req.session.jwt) {
+    return next();
+  }
+  try {
+    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY_USER);
+    req.currentuser = payload;
+    // console.log(payload);
+  } catch (error) {}
+  next();
+};
 exports.passports = function (req, res, next) {
   if (!req.currentuser) {
     res.status(401).send([{ message: "Not authorized" }]);

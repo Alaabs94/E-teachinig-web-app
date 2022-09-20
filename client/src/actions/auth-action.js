@@ -12,7 +12,7 @@ import {
 } from "../constants/auth-types";
 import authServices from "../services/auth-services";
 
-export const signupAction = (data) => async (dispatch, getState) => {
+export const signupAction = (data) => async (dispatch) => {
   try {
     const res = await authServices.createUser(data);
 

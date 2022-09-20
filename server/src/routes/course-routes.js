@@ -28,21 +28,21 @@ courseRoutes.put(
 courseRoutes.post(
   "/add/:id",
 
-  midUser.currentuser,
+  midUser.currentUser2,
   midUser.passports,
   course.addSUbscriber
 );
 courseRoutes.post(
   "/remove/:id",
 
-  midUser.currentuser,
+  midUser.currentUser2,
   midUser.passports,
   course.removeSUbscriber
 );
-courseRoutes.get(
+courseRoutes.post(
   "/status/:id",
 
-  midUser.currentuser,
+  midUser.currentUser2,
   midUser.passports,
   course.getStatus
 );

@@ -59,11 +59,7 @@ function Signin(props) {
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
                 <h2>Get in Touch</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  malesuada lorem maximus mauris scelerisque, at rutrum nulla
-                  dictum. Ut ac ligula sapien.{" "}
-                </p>
+                <p>Sign in as a student</p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input

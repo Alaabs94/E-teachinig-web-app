@@ -1,5 +1,6 @@
 const express = require("express");
 const { json } = require("body-parser");
+const dotenv = require("dotenv").config();
 const studentRouter = require("./src/routes/student-auth-routes");
 const teacherRoutes = require("./src/routes/teacher-auth-routes");
 const courseRoutes = require("./src/routes/course-routes");

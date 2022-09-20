@@ -6,8 +6,8 @@ import {
   getStatus,
   FailGetStatus,
 } from "../constants/subscription-types";
-let course = [];
-const subscriptionReducer = (initialState = course, action) => {
+let subs = [];
+const subscriptionReducer = (initialState = subs, action) => {
   switch (action.type) {
     case subscribed:
     case unsubscribed:

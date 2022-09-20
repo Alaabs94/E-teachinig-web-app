@@ -22,12 +22,13 @@ const Dropdowns = () => {
     });
   };
   useEffect(() => {
-    console.log("teacherAuth", teacherAuth);
+    console.log("type teacher", typeTeacher);
+    console.log("type user", typeUser);
   });
   return (
     <div className="btn-group btn-group-top">
       {auth || teacherAuth ? (
-        typeUser ? (
+        auth && typeUser === "user" ? (
           <a
             href="/signin"
             className="site-btn header-btn"

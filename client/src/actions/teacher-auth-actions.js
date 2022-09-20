@@ -28,7 +28,7 @@ export const signupAction = (data) => async (dispatch) => {
     return Promise.reject(error);
   }
 };
-export const signinAction = (data) => async (dispatch) => {
+export const signinActionTeacher = (data) => async (dispatch) => {
   try {
     const res = await teacherServices.identifyTeacher(data);
     dispatch({

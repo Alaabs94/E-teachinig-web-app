@@ -64,7 +64,7 @@ exports.deleteCourse = async (req, res) => {
 exports.addSUbscriber = async (req, res) => {
   const course = await Course.findOne({ _id: req.params.id });
 
-  console.log(course.users);
+  // console.log(course.users);
   if (!course.users.includes(req.body.id)) {
     const subscriber = await Course.updateOne(
       { _id: req.params.id },
@@ -75,16 +75,7 @@ exports.addSUbscriber = async (req, res) => {
       }
     );
     return res.status(201).send({ subscription: true });
-  }
-  if (course.users.includes(req.body.id)) {
-    return res.status(401).send([{ message: "You are Already subscribed" }]);
-  }
-  return res.status(400).send([{ message: "Something went Wrong" }]);
-};
-exports.removeSUbscriber = async (req, res) => {
-  const course = await Course.findOne({ _id: req.params.id });
-  console.log(course.users);
-  if (course.users.includes(req.body.id)) {
+  } else if (course.users.includes(req.body.id)) {
     const subscriber = await Course.updateOne(
       { _id: req.params.id },
       {
@@ -94,7 +85,14 @@ exports.removeSUbscriber = async (req, res) => {
       }
     );
     return res.status(201).send({ subscription: false });
+  } else {
+    return res.status(400).send([{ message: "Something went Wrong" }]);
   }
+};
+exports.removeSUbscriber = async (req, res) => {
+  const course = await Course.findOne({ _id: req.params.id });
+  console.log(course.users);
+
   if (!course.users.includes(req.body.id)) {
     return res
       .status(401)
@@ -107,11 +105,11 @@ exports.getStatus = async (req, res) => {
   const course = await Course.findOne({ _id: req.params.id });
   if (course.users.includes(req.body.id)) {
     return res.status(201).send({ subscription: true });
+  } else if (!course.users.includes(req.body.id)) {
+    return res.status(201).send({ subscription: false });
+  } else {
+    return res.status(400).send([{ message: "Something went Wrong" }]);
   }
-  if (!course.users.includes(req.body.id)) {
-    return res.status(401).send({ subscription: false });
-  }
-  return res.status(400).send([{ message: "Something went Wrong" }]);
 };
 exports.getAll = async (req, res) => {
   const course = await Course.find({}).populate("teacher");

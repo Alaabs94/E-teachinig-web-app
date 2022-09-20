@@ -36,7 +36,7 @@ const Register = () => {
 
         <div className="text-center pt-5">
           {auth || teacherAuth ? (
-            typeUser ? (
+            auth && typeUser === "user" ? (
               <a
                 href="/signin"
                 className="site-btn header-btn"

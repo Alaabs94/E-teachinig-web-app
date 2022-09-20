@@ -30,9 +30,9 @@ exports.signup = async function (req, res) {
   await user.save();
   const userJwt = jwt.sign(
     {
-      id: user._id,
-      firstname: user._firstname,
-      lastname: user._lastname,
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
       email: user.email,
       password: user.password,
       picture: user.picture,
@@ -97,24 +97,28 @@ exports.editTeacher = async function (req, res) {
     return res.status(400).json(validation);
   } else {
     const changePassword = await passwordChange.toHash(req.body.password);
-    const user = await Teacher.findByIdAndUpdate(
-      { _id: req.currentuser.id },
+    const user = await Teacher.findOneAndUpdate(
+      { email },
+
       {
-        $set: {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          password: changePassword,
-          description: req.body.description,
-          picture: req.body.picture,
-        },
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        password: changePassword,
+        description: req.body.description,
+        picture: req.body.picture,
       }
     );
 
+    const existUser = await Teacher.findOne({ email });
+
     const userJwt = jwt.sign(
       {
-        id: user._id,
-        email: user.email,
-        password: user.password,
+        id: existUser.id,
+        firstname: existUser.firstname,
+        lastname: existUser.lastname,
+        email: existUser.email,
+        password: existUser.password,
+        picture: existUser.picture,
       },
       process.env.JWT_KEY
     );
@@ -123,6 +127,6 @@ exports.editTeacher = async function (req, res) {
       jwt: userJwt,
     };
 
-    res.status(201).send(user);
+    res.status(201).send(existUser);
   }
 };

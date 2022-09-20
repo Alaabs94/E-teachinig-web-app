@@ -20,7 +20,7 @@ const authReducer = (initialState = {}, action) => {
     case currentUser:
       return action.payload
         ? { ...action.payload, auth: true, type: "user" }
-        : { ...action.payload, auth: false, type: "user" };
+        : { ...action.payload };
     case failSigninUser:
     case failSignupUser:
     case failSignoutUser:

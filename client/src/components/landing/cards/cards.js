@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 const Cards = ({ courses, updateCourse }) => {
   const [searchCourses, setSearch] = useState([]);
   const [field, setField] = useState([]);
   const [newField, setNewField] = useState([]);
-  const [updater, setUpdater] = useState(false);
+
   const auth = useSelector((state) => state.authReducer.auth);
   const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
-  const typeUser = useSelector((state) => state.authReducer.type);
-  const typeTeacher = useSelector((state) => state.authTeacherReducer.type);
+  const userInfo = useSelector((state) => state.authReducer);
 
   useEffect(() => {
     setSearch(courses);
@@ -33,11 +31,10 @@ const Cards = ({ courses, updateCourse }) => {
     return (
       <Link
         to={`${f}`}
-        state={el}
+        state={{ el, auth: auth, teacherAuth: teacherAuth, userInfo: userInfo }}
         className="mix col-lg-3 col-md-4 col-sm-6 finance"
         key={el.id}
       >
-        {" "}
         <div
           className="course-item"
           style={{ backgroundImage: `url(${el.picture})` }}
@@ -52,8 +49,8 @@ const Cards = ({ courses, updateCourse }) => {
           <div className="course-info">
             <div className="course-text">
               <h5>{el.name}</h5>
-              <p>{el.description}</p>
-              <div className="students">{el.users.length}</div>
+              <p>{el.description.split(" ").slice(0, 5).join(" ")}...</p>
+              <div className="students">students: {el.users.length}</div>
             </div>
             <div className="course-author">
               <div

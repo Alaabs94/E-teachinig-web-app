@@ -11,16 +11,9 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 const getCurrentUser = (store) => (next) => (action) => {
-  if (
-    action.type === signinTeacher ||
-    action.type === signupTeacher
-    // action.type === signinUser ||
-    // action.type === signupUser
-  ) {
-    store.dispatch(getTeacher()).then((res) => {
-      console.log(res);
-    });
-  }
+  store.dispatch(getTeacher()).then((res) => {
+    console.log(res);
+  });
 
   next(action);
 };

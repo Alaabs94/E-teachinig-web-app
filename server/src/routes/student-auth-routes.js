@@ -17,7 +17,7 @@ studentRoutes.get("/signout", userAuth.signout);
 studentRoutes.post("/signin", userAuth.signin);
 studentRoutes.get(
   "/currentuser",
-  midUser.currentuser,
+  midUser.currentUser2,
 
   userAuth.currentUser
 );
@@ -28,7 +28,7 @@ studentRoutes.put(
     .trim()
     .isLength({ min: 5, max: 20 })
     .withMessage("password must be valid"),
-  midUser.currentuser,
+  midUser.currentUser2,
   midUser.passports,
   userAuth.editUser
 );

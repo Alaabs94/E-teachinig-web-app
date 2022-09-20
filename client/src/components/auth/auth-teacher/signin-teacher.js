@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
-import { signinAction } from "../../../actions/teacher-auth-actions";
+import { signinActionTeacher } from "../../../actions/teacher-auth-actions";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -36,7 +36,7 @@ function SigninTeacher(props) {
         text: "empthy field",
       });
     } else {
-      dispatch(signinAction(user))
+      dispatch(signinActionTeacher(user))
         .then((res) => {
           Swal.fire("Good job!", "You clicked the button!", "success");
           navigate("/");
@@ -59,11 +59,7 @@ function SigninTeacher(props) {
             <div className="contact-form-warp">
               <div className="section-title text-white text-left">
                 <h2>Get in Touch</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  malesuada lorem maximus mauris scelerisque, at rutrum nulla
-                  dictum. Ut ac ligula sapien.{" "}
-                </p>
+                <p>Sign in as a Teacher</p>
               </div>
               <form onSubmit={(e) => onSubmitForm(e)} className="contact-form">
                 <input

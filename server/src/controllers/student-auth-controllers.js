@@ -38,7 +38,7 @@ exports.signup = async function (req, res) {
       password: user.password,
       picture: user.picture,
     },
-    process.env.JWT_KEY
+    process.env.JWT_KEY_USER
   );
 
   req.session = {
@@ -70,7 +70,7 @@ exports.signin = async function (req, res) {
       lastname: existUser.lastname,
       picture: existUser.picture,
     },
-    process.env.JWT_KEY
+    process.env.JWT_KEY_USER
   );
   req.session = {
     jwt: userJwt,
@@ -107,21 +107,21 @@ exports.editUser = async function (req, res) {
       },
     }
   );
-
+  const existUser = await Teacher.findOne({ email });
   const userJwt = jwt.sign(
     {
-      id: user.id,
-      email: user.email,
-      password: user.password,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      picture: user.picture,
+      id: existUser.id,
+      firstname: existUser.firstname,
+      lastname: existUser.lastname,
+      email: existUser.email,
+      password: existUser.password,
+      picture: existUser.picture,
     },
-    process.env.JWT_KEY
+    process.env.JWT_KEY_USER
   );
 
   req.session = {
-    jwt: userJwt,
+    jwt: existUser,
   };
 
   res.status(201).send(user);

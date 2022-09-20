@@ -19,7 +19,8 @@ const EditTeacher = () => {
     picture: "",
     description: "",
   };
-
+  const [isloading, setIsloading] = useState(false);
+  const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [pic, setPic] = useState(initialUser.picture);
   const [user, setUser] = useState(initialUser);
   useEffect(() => {
@@ -31,6 +32,7 @@ const EditTeacher = () => {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "uuz0hdpn");
+    setPhotoIsLoading(true);
     // axios.defaults.withCredentials = false;
     axios
       .post(
@@ -40,6 +42,7 @@ const EditTeacher = () => {
       )
       .then(({ data }) => {
         setPic(data.url);
+        setPhotoIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -48,6 +51,7 @@ const EditTeacher = () => {
 
   const getcurrentTeacher = () =>
     dispatch(getTeacher()).then((res) => {
+      console.log("res", res);
       setUser({ ...res.currentuser, password: "", repeatPassword: "" });
     });
 
@@ -59,6 +63,7 @@ const EditTeacher = () => {
   };
   const onSubmitForm = (event) => {
     event.preventDefault();
+
     user.picture = pic;
     console.log(user);
     if (user.password !== user.repeatPassword) {
@@ -73,7 +78,6 @@ const EditTeacher = () => {
       user.email === "" ||
       user.lastname === "" ||
       user.description === "" ||
-      user.picture === "" ||
       user.firstname === ""
     ) {
       Swal.fire({
@@ -82,13 +86,11 @@ const EditTeacher = () => {
         text: "empthy field",
       });
     }
-    dispatch(editAction(user))
-      .then((res) => {
-        setUser({ ...res.data, password: "", repeatPassword: "" });
-      })
-      .then((res) => {
-        getcurrentTeacher();
-      });
+    setIsloading(true);
+    dispatch(editAction(user)).then((res) => {
+      getcurrentTeacher();
+      setIsloading(false);
+    });
   };
 
   return (
@@ -132,6 +134,13 @@ const EditTeacher = () => {
                           onChange={(e) => uploadImage(e)}
                           name="picture"
                         />
+                        {photoIsLoading ? (
+                          <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
                         {pic ? (
                           <img
                             src={pic}
@@ -222,13 +231,19 @@ const EditTeacher = () => {
             </form>
           </div>
           <div className="modal-footer">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={(e) => onSubmitForm(e)}
-            >
-              Confirm
-            </button>
+            {isloading === true ? (
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={(e) => onSubmitForm(e)}
+              >
+                Confirm
+              </button>
+            )}
           </div>
         </div>
       </div>
