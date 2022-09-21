@@ -4,13 +4,15 @@ const dotenv = require("dotenv").config();
 const studentRouter = require("./src/routes/student-auth-routes");
 const teacherRoutes = require("./src/routes/teacher-auth-routes");
 const courseRoutes = require("./src/routes/course-routes");
+const adminRoutes = require("./src/routes/admin-routes");
+
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     methods: ["PUT", "POST", "GET", "PATCH"],
     credentials: true,
   })
@@ -29,6 +31,8 @@ app.use(
 app.use("/api/student", studentRouter);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/admin", adminRoutes);
+
 //   app.use(signoutRouter);
 //   app.use(signupRouter);
 

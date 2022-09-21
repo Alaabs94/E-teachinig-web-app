@@ -14,6 +14,7 @@ const StudentSchema = new mongoose.Schema(
       default:
         "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp",
     },
+    blocked: { type: Boolean, default: false },
   },
   {
     toJSON: {
