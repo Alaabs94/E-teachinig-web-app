@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createAction } from "../../../../actions/course-action";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddCourse = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,8 @@ const AddCourse = () => {
     videos: [],
   };
 
-  const [loadVideo, setLoadVideo] = useState(false);
-
+  const [length, setLength] = useState(0);
+  const [counter, setCounter] = useState(0);
   const [source, setSource] = useState([]);
   const [course, setCourse] = useState(initialCourse);
 
@@ -24,40 +25,43 @@ const AddCourse = () => {
     "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
   );
   // useEffect(() => {
-  //   setLoadVideo(true);
-  // }, []);
+  //   console.log("counter", counter);
+  //   console.log("length", length);
+  //   console.log(counter !== length);
+  // }, [counter, length]);
 
   const handleFileChangeVideo = (event) => {
+    setCounter(0);
     // setLoadVideo(!loadVideo);
 
     // console.log(checked)
     const file = event.target.files;
-    console.log(file);
+
     const chosenFiles = Array.prototype.slice.call(file);
+    setLength(chosenFiles.length);
     const uploaded = [...source];
 
-    chosenFiles.map((f) => {
+    chosenFiles.map((f, i) => {
       const formData = new FormData();
       formData.append("file", f);
       formData.append("upload_preset", "uuz0hdpn");
-      setLoadVideo(true);
 
       axios
         .post("https://api.cloudinary.com/v1_1/dofqvjuui/upload", formData, {
           withCredentials: false,
         })
-        .then(({ data }) => {
-          console.log(data.url);
 
+        .then(({ data }) => {
+          console.log("data.url", data.url);
           uploaded.push(data.url);
-          setLoadVideo(false);
-          // setLoadVideo(false);
+          setCounter(i + 1);
         })
         .catch((err) => {
           console.log(err);
+          setCounter(0);
+          setLength(0);
         });
     });
-
     setSource(uploaded);
   };
   const handelInputChange = (event) => {
@@ -94,6 +98,8 @@ const AddCourse = () => {
     console.log("course", course);
     dispatch(createAction(course)).then((res) => {
       setCourse(initialCourse);
+      Swal.fire("Good job!", "course is added successfully!", "success");
+      setSource([]);
     });
   };
 
@@ -174,7 +180,8 @@ const AddCourse = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="formFileMultiple" className="form-label">
-                Add multiple videos
+                <i className="fa fa-file-video-o me-2"></i> Add multiple videos
+                to your course:
               </label>
               <input
                 className="form-control"
@@ -184,7 +191,7 @@ const AddCourse = () => {
                 onChange={handleFileChangeVideo}
                 accept=".mov,.mp4"
               />
-              {loadVideo === true ? (
+              {counter !== length ? (
                 <div className="spinner-border" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>

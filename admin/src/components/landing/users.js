@@ -1,14 +1,34 @@
 import React, { useEffect, useState } from "react";
-const Users = () => {
+import axios from "axios";
+import Swal from "sweetalert2";
+
+const Users = ({ users }) => {
+  const [user, setUsers] = useState([]);
   useEffect(() => {
-    console.log("Users");
-  });
+    setUsers(users);
+  }, []);
+  const getUsers = () => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:5000/api/admin/student").then(({ data }) => {
+      console.log(data);
+      setUsers(data);
+    });
+  };
+  const BlockUser = (e, userId) => {
+    e.preventDefault();
+    axios
+      .get(`http://localhost:5000/api/admin/student/${userId}`)
+      .then(({ data }) => {
+        getUsers();
+        Swal.fire("Done!", data.message, "success");
+      })
+      .catch((err) => {});
+  };
   return (
     <div className="container-fluid pt-4 px-4">
       <div className="bg-light text-center rounded p-4">
         <div className="d-flex align-items-center justify-content-between mb-4">
-          <h6 className="mb-0">Recent users</h6>
-          <a href="">Show All</a>
+          <h6 className="display-4">Recent users</h6>
         </div>
         <div className="table-responsive">
           <table className="table text-start align-middle table-bordered table-hover mb-0">
@@ -17,90 +37,42 @@ const Users = () => {
                 <th scope="col">
                   <input className="form-check-input" type="checkbox" />
                 </th>
-                <th scope="col">Date</th>
-                <th scope="col">Invoice</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Status</th>
+                <th scope="col">firstname</th>
+                <th scope="col">lastname</th>
+                <th scope="col">email</th>
+
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <input className="form-check-input" type="checkbox" />
-                </td>
-                <td>01 Jan 2045</td>
-                <td>INV-0123</td>
-                <td>Jhon Doe</td>
-                <td>$123</td>
-                <td>Paid</td>
-                <td>
-                  <a className="btn btn-sm btn-primary" href="">
-                    Detail
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input className="form-check-input" type="checkbox" />
-                </td>
-                <td>01 Jan 2045</td>
-                <td>INV-0123</td>
-                <td>Jhon Doe</td>
-                <td>$123</td>
-                <td>Paid</td>
-                <td>
-                  <a className="btn btn-sm btn-primary" href="">
-                    Detail
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input className="form-check-input" type="checkbox" />
-                </td>
-                <td>01 Jan 2045</td>
-                <td>INV-0123</td>
-                <td>Jhon Doe</td>
-                <td>$123</td>
-                <td>Paid</td>
-                <td>
-                  <a className="btn btn-sm btn-primary" href="">
-                    Detail
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input className="form-check-input" type="checkbox" />
-                </td>
-                <td>01 Jan 2045</td>
-                <td>INV-0123</td>
-                <td>Jhon Doe</td>
-                <td>$123</td>
-                <td>Paid</td>
-                <td>
-                  <a className="btn btn-sm btn-primary" href="">
-                    Detail
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input className="form-check-input" type="checkbox" />
-                </td>
-                <td>01 Jan 2045</td>
-                <td>INV-0123</td>
-                <td>Jhon Doe</td>
-                <td>$123</td>
-                <td>Paid</td>
-                <td>
-                  <button className="btn btn-sm btn-primary" href="">
-                    Block
-                  </button>
-                </td>
-              </tr>
+              {user.map((el) => (
+                <tr key={el.id}>
+                  <td>
+                    <input className="form-check-input" type="checkbox" />
+                  </td>
+                  <td>{el.firstname}</td>
+                  <td>{el.lastname}</td>
+                  <td>{el.email}</td>
+
+                  <td>
+                    {el.blocked === false ? (
+                      <button
+                        onClick={(e) => BlockUser(e, el.id)}
+                        className="btn btn-sm btn-danger"
+                      >
+                        Block
+                      </button>
+                    ) : (
+                      <button
+                        onClick={(e) => BlockUser(e, el.id)}
+                        className="btn btn-sm btn-danger"
+                      >
+                        Unblock
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

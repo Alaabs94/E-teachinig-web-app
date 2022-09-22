@@ -26,7 +26,7 @@ const ProfileTeacher = () => {
       <div className="container py-5">
         <div className="row">
           <div className="col">
-            <nav className="main-menu ">
+            <nav className="main-menu">
               <ul className="buttons_navigation">
                 <a href="#" onClick={() => logout()} className="site-btn">
                   Log out

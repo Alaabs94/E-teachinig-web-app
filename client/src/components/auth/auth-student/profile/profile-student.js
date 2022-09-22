@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import EditUser from "./edit-user";
 import PersonalCourse from "./personal-course";
 import React from "react";
@@ -39,20 +39,15 @@ const ProfileUser = () => {
         <div className="row">
           <div className="col">
             <nav className="main-menu">
-              <ul>
-                <a
-                  href="#"
-                  onClick={() => logout()}
-                  className="site-btn header-btn btn-pos"
-                >
+              <ul className="buttons_navigation">
+                <a href="#" onClick={() => logout()} className="site-btn">
                   Log out
+                </a>
+                <a href="/" className="site-btn">
+                  Home
                 </a>
               </ul>
             </nav>
-
-            <a href="/" className="site-btn header-btn">
-              Home
-            </a>
           </div>
         </div>
 

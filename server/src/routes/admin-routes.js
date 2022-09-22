@@ -35,7 +35,7 @@ adminRoutes.get(
 );
 adminRoutes.post("/signin", adminAuth.signin);
 
-adminRoutes.get(
+adminRoutes.delete(
   "/course/:id",
   midUser.currentAdmin,
   midUser.passports,

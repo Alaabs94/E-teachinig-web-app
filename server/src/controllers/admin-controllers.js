@@ -26,7 +26,7 @@ exports.blockTeacher = async (req, res) => {
         },
       }
     );
-    return res.status(200).send(user);
+    return res.status(200).send({ message: "user is unblocked successfully" });
   }
   const user = await Teacher.findByIdAndUpdate(
     { _id: req.params.id },
@@ -36,7 +36,7 @@ exports.blockTeacher = async (req, res) => {
       },
     }
   );
-  return res.status(200).send(user);
+  return res.status(200).send({ message: "user is blocked successfully" });
 };
 exports.blockUser = async (req, res) => {
   const existingStudent = await Student.findOne({ _id: req.params.id });
@@ -49,7 +49,7 @@ exports.blockUser = async (req, res) => {
         },
       }
     );
-    return res.status(200).send(user);
+    return res.status(200).send({ message: "user is unblocked successfully" });
   }
   const user = await Student.findByIdAndUpdate(
     { _id: req.params.id },
@@ -59,7 +59,7 @@ exports.blockUser = async (req, res) => {
       },
     }
   );
-  return res.status(200).send(user);
+  return res.status(200).send({ message: "user is blocked successfully" });
 };
 exports.signin = async (req, res) => {
   if (process.env.GMAIL_ADDRESS !== req.body.email) {
@@ -89,7 +89,7 @@ exports.deleteCourse = async (req, res) => {
     return res.status(400).send([{ message: "Course not found" }]);
   }
   const course = await Course.deleteOne({ _id: req.params.id });
-  return res.status(200).send([{ message: "Course deleted successfully" }]);
+  return res.status(200).send({ message: "Course deleted successfully" });
 };
 exports.signout = async function (req, res) {
   req.session = null;

@@ -52,14 +52,17 @@ exports.signin = async function (req, res) {
   const { email, password } = req.body;
   const existUser = await Student.findOne({ email });
   if (!existUser) {
-    return res.status(400).send([{ error: "invalid credentials" }]);
+    return res.status(400).send([{ message: "invalid credentials" }]);
+  }
+  if (existUser.blocked) {
+    return res.status(400).send([{ message: "You are temporarily blocked" }]);
   }
   const passwordMatch = await passwordMod.comparePasswords(
     existUser.password,
     password
   );
   if (!passwordMatch) {
-    return res.status(400).send([{ error: "password mismatched" }]);
+    return res.status(400).send([{ message: "password mismatched" }]);
   }
   const userJwt = jwt.sign(
     {

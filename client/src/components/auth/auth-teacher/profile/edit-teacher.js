@@ -156,21 +156,13 @@ const EditTeacher = () => {
                         ) : (
                           <div></div>
                         )}
-                        {user.picture ? (
-                          <img
-                            src={user.picture}
-                            id="imagePreview"
-                            width="200px"
-                            className="file-preview"
-                          />
-                        ) : (
-                          <img
-                            src={pic}
-                            id="imagePreview"
-                            width="200px"
-                            className="file-preview"
-                          />
-                        )}
+
+                        <img
+                          src={pic}
+                          id="imagePreview"
+                          width="200px"
+                          className="file-preview"
+                        />
                       </div>
                     </div>
                   </div>

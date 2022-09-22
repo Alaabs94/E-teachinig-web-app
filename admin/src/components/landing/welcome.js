@@ -1,21 +1,57 @@
 import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Courses from "./courses";
 import Users from "./users";
 import Teachers from "./teachers";
 import { useEffect, useState } from "react";
 const Landing = () => {
+  const navigate = useNavigate();
   const [show, setShow] = useState("USER");
+  const [course, setCourse] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [teachers, setTeachers] = useState([]);
 
   useEffect(() => {
-    console.log("welcome");
-  });
-  // const logout = () => {
-  //   dispatch(signoutAction()).then((res) => {
-  //     navigate("/");
-  //   });
-  // };
+    getCourse();
+    getUsers();
+    getTeachers();
+  }, []);
+  const getCourse = () => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:5000/api/admin/course").then(({ data }) => {
+      console.log(data);
+      setCourse(data);
+    });
+  };
+  const getTeachers = () => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:5000/api/admin/teacher").then(({ data }) => {
+      console.log(data);
+      setTeachers(data);
+    });
+  };
+  const getUsers = () => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:5000/api/admin/student").then(({ data }) => {
+      console.log(data);
+      setUsers(data);
+    });
+  };
+  const logout = () => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:5000/api/admin/signout").then((res) => {
+      navigate("/");
+      console.log("helloo");
+    });
+  };
   const changeView = (view) => {
+    const removeActive = document.getElementById(show);
+    const addActive = document.getElementById(view);
     setShow(view);
+    removeActive.classList.remove("active");
+    addActive.classList.add("active");
   };
   return (
     <div className="container-xxl position-relative bg-white d-flex p-0">
@@ -58,26 +94,29 @@ const Landing = () => {
           </div>
           <ul className="navbar-nav w-100">
             <li
+              id="COURSES"
               onClick={() => changeView("COURSES")}
               href="/users"
               className="nav-item nav-link active"
             >
-              <i className="fa fa-tachometer-alt me-2"></i>courses
+              <i className="fas fa-book-reader me-2"></i>courses
             </li>
 
             <li
               onClick={() => changeView("USER")}
+              id="USER"
               href="widget.html"
               className="nav-item nav-link"
             >
-              <i className="fa fa-th me-2"></i>Users
+              <i className="fas fa-user-graduate me-2"></i>Users
             </li>
             <li
+              id="TEACHER"
               onClick={() => changeView("TEACHER")}
               href="form.html"
               className="nav-item nav-link"
             >
-              <i className="fa fa-keyboard me-2"></i>Teachers
+              <i className="fas fa-chalkboard-teacher me-2"></i>Teachers
             </li>
           </ul>
         </nav>
@@ -224,7 +263,7 @@ const Landing = () => {
                 <a href="#" className="dropdown-item">
                   Settings
                 </a>
-                <a href="#" className="dropdown-item">
+                <a href="/" onClick={() => logout()} className="dropdown-item">
                   Log Out
                 </a>
               </div>
@@ -238,39 +277,39 @@ const Landing = () => {
           <div className="row g-4">
             <div className="col-sm-6 col-xl-3">
               <div className="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i className="fa fa-chart-line fa-3x text-primary"></i>
+                <i className="fas fa-user-tie fa-3x text-primary"></i>
                 <div className="ms-3">
                   <p className="mb-2">Total Teachers</p>
-                  <h6 className="mb-0">0</h6>
+                  <h6 className="mb-0">{teachers.length}</h6>
                 </div>
               </div>
             </div>
             <div className="col-sm-6 col-xl-3">
               <div className="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i className="fa fa-chart-bar fa-3x text-primary"></i>
+                <i className="fas fa-user-graduate fa-3x text-primary"></i>
                 <div className="ms-3">
                   <p className="mb-2">Total students</p>
-                  <h6 className="mb-0">$1234</h6>
+                  <h6 className="mb-0">{users.length} </h6>
                 </div>
               </div>
             </div>
             <div className="col-sm-6 col-xl-3">
               <div className="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i className="fa fa-chart-area fa-3x text-primary"></i>
+                <i className="	fas fa-book-open fa-3x text-primary"></i>
                 <div className="ms-3">
                   <p className="mb-2">Total Courses</p>
-                  <h6 className="mb-0">0</h6>
+                  <h6 className="mb-0">{course.length}</h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
         {/* <!-- Sale & Revenue End --> */}
-        {show === "COURSES" && <Courses />}
+        {show === "COURSES" && <Courses course={course} />}
 
-        {show === "TEACHER" && <Teachers />}
+        {show === "TEACHER" && <Teachers teachers={teachers} />}
 
-        {show === "USER" && <Users />}
+        {show === "USER" && <Users users={users} />}
         {/* <!-- Recent Sales Start --> */}
 
         {/* <!-- Recent Sales End --> */}

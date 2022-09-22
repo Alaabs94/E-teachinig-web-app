@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  axios.defaults.withCredentials = true;
   const initialUser = {
     email: "",
     password: "",
@@ -27,12 +28,11 @@ const SignIn = () => {
         text: "empthy field",
       });
     } else {
-      axios.defaults.withCredentials = true;
       axios
         .post("http://localhost:5000/api/admin/signin", user)
         .then((res) => {
-          Swal.fire("Good job!", "You clicked the button!", "success");
-          navigate("/");
+          Swal.fire("Good job!", "You sign in successfully", "success");
+          navigate("/landing");
         })
         .catch((err) => {
           Swal.fire({

@@ -14,7 +14,7 @@ const Cards = ({ courses, updateCourse }) => {
   useEffect(() => {
     setSearch(courses);
     setNewField(courses);
-    setField(courses);
+    setField(removeDuplicates(courses));
   }, [updateCourse]);
 
   const onReloadState = (e) => {
@@ -24,9 +24,19 @@ const Cards = ({ courses, updateCourse }) => {
   const onSearchByClick = (e, f) => {
     e.preventDefault();
 
-    const findCommons = searchCourses.filter((c) => c.field.includes(f));
+    const findCommons = searchCourses.filter((c) =>
+      c.field.toLowerCase().includes(f.toLowerCase())
+    );
     setNewField(findCommons);
   };
+  const removeDuplicates = (f) => {
+    const filder = [];
+    f.map((c) =>
+      filder.push(c.field.charAt(0).toUpperCase() + c.field.slice(1))
+    );
+    return [...new Set(filder)];
+  };
+
   const groupCard = (f, el) => {
     return (
       <Link
@@ -49,7 +59,7 @@ const Cards = ({ courses, updateCourse }) => {
           <div className="course-info">
             <div className="course-text">
               <h5>{el.name}</h5>
-              <p>{el.description.split(" ").slice(0, 5).join(" ")}...</p>
+              <p>{el.description.split(" ").slice(0, 3).join(" ")}...</p>
               <div className="students">students: {el.users.length}</div>
             </div>
             <div className="course-author">
@@ -81,12 +91,12 @@ const Cards = ({ courses, updateCourse }) => {
           </li>
           {field.map((el) => (
             <li
-              onClick={(e) => onSearchByClick(e, el.field)}
-              key={el.id}
+              onClick={(e) => onSearchByClick(e, el)}
+              key={el}
               className="control active"
               data-filter="all"
             >
-              {el.field}
+              {el}
             </li>
           ))}
         </ul>
