@@ -42,6 +42,7 @@ function SigninTeacher(props) {
           navigate("/");
         })
         .catch((err) => {
+          console.log("err.response.data", err);
           Swal.fire({
             icon: "error",
             title: "Oops...",

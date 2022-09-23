@@ -92,7 +92,7 @@ const EditUser = () => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data[0].message,
+            text: err[0].message,
           });
         });
     }

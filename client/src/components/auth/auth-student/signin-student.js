@@ -42,10 +42,11 @@ function Signin(props) {
           navigate("/");
         })
         .catch((err) => {
+          console.log(err[0].message);
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data[0].message,
+            text: err[0].message,
           });
         });
     }

@@ -53,7 +53,7 @@ exports.signin = async function (req, res) {
   if (!existUser) {
     return res.status(400).send([{ message: "invalid credentials" }]);
   }
-  if (existUser.blocked) {
+  if (existUser.blocked === true) {
     return res.status(400).send([{ message: "You are temporarily blocked" }]);
   }
   const passwordMatch = await passwordMod.comparePasswords(
