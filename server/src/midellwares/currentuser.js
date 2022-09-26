@@ -6,7 +6,6 @@ exports.currentuser = (req, res, next) => {
   try {
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY);
     req.currentuser = payload;
-    // console.log(payload);
   } catch (error) {}
   next();
 };
@@ -17,7 +16,6 @@ exports.currentUser2 = (req, res, next) => {
   try {
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY_USER);
     req.currentuser = payload;
-    // console.log(payload);
   } catch (error) {}
   next();
 };
@@ -28,7 +26,6 @@ exports.currentAdmin = (req, res, next) => {
   try {
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY_ADMIN);
     req.currentuser = payload;
-    // console.log(payload);
   } catch (error) {}
   next();
 };

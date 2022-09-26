@@ -26,8 +26,7 @@ app.use(
     // secure: process.env.NODE_ENV !== "test",
   })
 );
-// console.log(process.env.NODE_ENV);
-// console.log(process.env.JWT_KEY);
+
 app.use("/api/student", studentRouter);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/course", courseRoutes);

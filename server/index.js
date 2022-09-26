@@ -1,8 +1,6 @@
 const Mongoose = require("mongoose");
 const app = require("./app");
 
-console.log("MONGO_URI", process.env.URI);
-
 const start = async () => {
   if (!process.env.URI) {
     throw new Error("MONGO_URI  should be defined");

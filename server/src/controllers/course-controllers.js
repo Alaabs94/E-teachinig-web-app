@@ -25,7 +25,7 @@ exports.creatCourse = async (req, res) => {
 };
 exports.editCourse = async (req, res) => {
   const errors = validationResult(req);
-  console.log(req.body.videos);
+
   const { name, teacher, description, picture, field, videos } = req.body;
 
   if (!errors.isEmpty()) {
@@ -64,7 +64,6 @@ exports.deleteCourse = async (req, res) => {
 exports.addSUbscriber = async (req, res) => {
   const course = await Course.findOne({ _id: req.params.id });
 
-  // console.log(course.users);
   if (!course.users.includes(req.body.id)) {
     const subscriber = await Course.updateOne(
       { _id: req.params.id },
@@ -91,7 +90,6 @@ exports.addSUbscriber = async (req, res) => {
 };
 exports.removeSUbscriber = async (req, res) => {
   const course = await Course.findOne({ _id: req.params.id });
-  console.log(course.users);
 
   if (!course.users.includes(req.body.id)) {
     return res

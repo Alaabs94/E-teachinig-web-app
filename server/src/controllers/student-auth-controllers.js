@@ -9,8 +9,6 @@ const midUserc = require("../midellwares/currentuser");
 
 exports.test = function (req, res) {
   res.send("hi my server is working");
-  console.log(req.body.email);
-  console.log(req.params.id);
 };
 exports.signup = async function (req, res) {
   const errors = validationResult(req);
@@ -21,7 +19,6 @@ exports.signup = async function (req, res) {
     return res.status(400).json(validation);
   }
 
-  console.log(req.body.email);
   const { email, password, firstname, lastname } = req.body;
   const existingStudent = await Student.findOne({ email });
   if (existingStudent) {

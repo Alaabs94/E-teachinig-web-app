@@ -8,8 +8,6 @@ const passwordMod = require("../midellwares/password");
 
 exports.test = function (req, res) {
   res.send("hi my server is working");
-  console.log(req.body.email);
-  console.log(req.params.id);
 };
 exports.signup = async function (req, res) {
   const errors = validationResult(req);
@@ -20,7 +18,6 @@ exports.signup = async function (req, res) {
     return res.status(400).json(validation);
   }
 
-  console.log(req.body.email);
   const { email, password, firstname, lastname } = req.body;
   const existingTeacher = await Teacher.findOne({ email });
   if (existingTeacher) {
@@ -88,7 +85,6 @@ exports.signout = async function (req, res) {
 };
 
 exports.editTeacher = async function (req, res) {
-  // console.log("editTeacher", req.body);
   const errors = validationResult(req);
 
   const { email } = req.body;
