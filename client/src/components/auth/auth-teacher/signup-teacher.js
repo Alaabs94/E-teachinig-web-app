@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
 import Swal from "sweetalert2";
@@ -6,7 +6,6 @@ import { signupAction } from "../../../actions/teacher-auth-actions";
 import { useNavigate } from "react-router-dom";
 function SignupTeacher() {
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.authTeacherReducer);
 
   const initialUser = {
     firstname: "",
@@ -23,9 +22,7 @@ function SignupTeacher() {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
-  useEffect(() => {
-    console.log(currentUser);
-  }, []);
+
   const onSubmitForm = (event) => {
     event.preventDefault();
     if (user.password !== user.repeatPassword) {

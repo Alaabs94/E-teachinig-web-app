@@ -1,8 +1,6 @@
 import {
   subscribed,
-  unsubscribed,
   failSubscribed,
-  FailUnsubscribed,
   getStatus,
   FailGetStatus,
 } from "../constants/subscription-types";

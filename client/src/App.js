@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Protected from "./components/landing/routes-protection";
-import { useDispatch, useSelector } from "react-redux";
+// import Protected from "./components/landing/routes-protection";
+import { useDispatch } from "react-redux";
 import Signin from "./components/auth/auth-student/signin-student";
 import SigninTeacher from "./components/auth/auth-teacher/signin-teacher";
 import SignupTeacher from "./components/auth/auth-teacher/signup-teacher";
@@ -34,13 +34,7 @@ function App() {
     getcurrentTeacher();
     getcurrentUser();
   }, []);
-  const auth = useSelector((state) => state.authReducer.auth);
-  const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
 
-  useEffect(() => {
-    console.log("auth", auth);
-    console.log("teacherAuth", teacherAuth);
-  }, []);
   return (
     <div className="App">
       <Routes>

@@ -1,6 +1,6 @@
-import { getTeacher } from "../actions/teacher-auth-actions";
-import { getUser } from "../actions/auth-action";
-import { signinTeacher, signupTeacher } from "../constants/teacher-auth-types";
+// import { getTeacher } from "../actions/teacher-auth-actions";
+// import { getUser } from "../actions/auth-action";
+// import { signinTeacher, signupTeacher } from "../constants/teacher-auth-types";
 
 const logger = (store) => (next) => (action) => {
   console.group(action.type);

@@ -12,6 +12,7 @@ const CourseCard = () => {
   const dispatch = useDispatch();
   console.log(teacherId.id);
   useEffect(() => {
+    // eslint-disable-next-line
     getAllCoursesById();
   }, []);
   const getAllCoursesById = () => {

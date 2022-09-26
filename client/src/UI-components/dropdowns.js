@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signoutAction } from "../actions/teacher-auth-actions";
@@ -8,7 +7,7 @@ const Dropdowns = () => {
   const auth = useSelector((state) => state.authReducer.auth);
   const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
   const typeUser = useSelector((state) => state.authReducer.type);
-  const typeTeacher = useSelector((state) => state.authTeacherReducer.type);
+
   const dispatch = useDispatch();
 
   const logoutTeacher = () => {
@@ -21,10 +20,7 @@ const Dropdowns = () => {
       navigate("/signin");
     });
   };
-  useEffect(() => {
-    console.log("type teacher", typeTeacher);
-    console.log("type user", typeUser);
-  });
+
   return (
     <div className="btn-group btn-group-top">
       {auth || teacherAuth ? (
@@ -51,7 +47,7 @@ const Dropdowns = () => {
             type="button"
             className="site-btn header-btn  dropdown-toggle"
             data-bs-toggle="dropdown"
-            aria-expanded="flse"
+            aria-expanded="false"
           >
             {" "}
             Login As

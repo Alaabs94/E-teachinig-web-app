@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createAction } from "../../../../actions/course-action";
 import axios from "axios";
@@ -24,19 +24,12 @@ const AddCourse = () => {
   const [pic, setPic] = useState(
     "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
   );
-  // useEffect(() => {
-  //   console.log("counter", counter);
-  //   console.log("length", length);
-  //   console.log(counter !== length);
-  // }, [counter, length]);
 
   const handleFileChangeVideo = (event) => {
     setCounter(0);
-    // setLoadVideo(!loadVideo);
 
-    // console.log(checked)
     const file = event.target.files;
-
+    // eslint-disable-next-line
     const chosenFiles = Array.prototype.slice.call(file);
     setLength(chosenFiles.length);
     const uploaded = [...source];
@@ -134,6 +127,7 @@ const AddCourse = () => {
                     id="imagePreview"
                     width="200px"
                     className="file-preview-item"
+                    alt="pic2"
                   />
                 </div>
               </div>

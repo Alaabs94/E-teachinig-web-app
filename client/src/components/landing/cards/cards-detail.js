@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import CoursesDetails from "./cours-detail";
 const CardDetails = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+
   const [status, setStatus] = useState(false);
   const location = useLocation();
   const data = location.state;
@@ -24,7 +24,6 @@ const CardDetails = () => {
 
     if (data.auth === true) {
       dispatch(getStatusAction(courseId, userId)).then((res) => {
-        console.log(el.id, res.subscription);
         setStatus(res.subscription);
       });
     }
@@ -32,7 +31,6 @@ const CardDetails = () => {
   const onSubmitSubscribe = (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
     dispatch(subscribeAction(el.id, data.userInfo.id))
       .then((res) => {
         subscriberStatus();

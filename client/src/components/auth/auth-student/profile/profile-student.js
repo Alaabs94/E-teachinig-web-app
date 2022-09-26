@@ -17,6 +17,7 @@ const ProfileUser = () => {
   const navigate = useNavigate();
   useEffect(() => {
     getAllCoursesById();
+    // eslint-disable-next-line
   }, []);
   const getAllCoursesById = () => {
     dispatch(showAction()).then((data) => {
@@ -40,7 +41,7 @@ const ProfileUser = () => {
           <div className="col">
             <nav className="main-menu">
               <ul className="buttons_navigation">
-                <a href="#" onClick={() => logout()} className="site-btn">
+                <a href="/signin" onClick={() => logout()} className="site-btn">
                   Log out
                 </a>
                 <a href="/" className="site-btn">
@@ -67,14 +68,14 @@ const ProfileUser = () => {
                 <p className="text-muted mb-1">Student</p>
                 <p className="text-muted mb-4">{userInfo.description}</p>
                 <div className="d-flex justify-content-center mb-2">
-                  <a
-                    href="#"
+                  <button
+                    // href="#"
                     className="site-btn header-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                   >
                     Edit
-                  </a>
+                  </button>
                   <EditUser />
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Dropdowns from "../../UI-components/dropdowns";
 import { useSelector } from "react-redux";
 
@@ -6,10 +6,6 @@ const Header = () => {
   const auth = useSelector((state) => state.authReducer.auth);
   const teacherAuth = useSelector((state) => state.authTeacherReducer.auth);
 
-  useEffect(() => {
-    console.log(auth);
-    console.log(teacherAuth);
-  }, []);
   return (
     // <!-- Header section -->
     <header className="header-section">

@@ -24,6 +24,7 @@ const EditTeacher = () => {
   const [user, setUser] = useState(initialUser);
   const [pic, setPic] = useState("");
   useEffect(() => {
+    // eslint-disable-next-line
     getcurrentTeacher();
   }, []);
   const uploadImage = (e) => {
@@ -162,6 +163,7 @@ const EditTeacher = () => {
                           id="imagePreview"
                           width="200px"
                           className="file-preview"
+                          img="loveNc"
                         />
                       </div>
                     </div>

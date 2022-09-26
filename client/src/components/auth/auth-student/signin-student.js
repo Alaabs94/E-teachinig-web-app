@@ -16,9 +16,6 @@ function Signin(props) {
     password: "",
   };
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, []);
   const [user, setUser] = useState(initialUser);
   const handelInputChange = (event) => {
     // console.log(event.target.value)

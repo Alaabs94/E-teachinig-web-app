@@ -32,16 +32,16 @@ const Landing = () => {
     e.preventDefault();
     getCourses();
     const name = termCourse.toString().toLowerCase();
-    console.log(name);
+
     const field = termField.toString().toLowerCase();
     const search = course.filter((item) => {
       const item1 = item.name.toString().toLowerCase();
-      console.log(item.name);
+
       const item2 = item.field.toString().toLowerCase();
 
       return item1.includes(name) && item2.includes(field);
     });
-    console.log(search);
+
     setCourse(search);
     setUpdateCourse(!updateCourse);
   };

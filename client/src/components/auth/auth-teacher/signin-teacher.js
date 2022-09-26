@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../../../UI-components/contacts";
 import { signinActionTeacher } from "../../../actions/teacher-auth-actions";
@@ -8,17 +8,12 @@ import Swal from "sweetalert2";
 function SigninTeacher(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState([]);
-  const currentUser = useSelector((state) => state.authReducer.auth);
 
   const initialUser = {
     email: "",
     password: "",
   };
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, []);
   const [user, setUser] = useState(initialUser);
   const handelInputChange = (event) => {
     // console.log(event.target.value)

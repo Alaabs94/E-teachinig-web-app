@@ -5,6 +5,7 @@ const PersonalCourse = ({ course, teacherAuth, auth, userInfo }) => {
   const [personalCourse, setPersonalCourse] = useState([]);
   useEffect(() => {
     getCourse();
+    // eslint-disable-next-line
   }, []);
   const getCourse = () => {
     const userfilter = course.filter((user) => {

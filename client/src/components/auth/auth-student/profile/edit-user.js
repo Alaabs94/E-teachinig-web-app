@@ -22,7 +22,7 @@ const EditUser = () => {
   const getcurrentUser = () =>
     dispatch(getUser()).then((res) => {
       setUser({ ...res, password: "", repeatPassword: "" });
-      console.log("user.picture", res.picture);
+
       setPic(res.picture);
     });
   useEffect(() => {
@@ -145,6 +145,7 @@ const EditUser = () => {
                           id="imagePreview"
                           width="200px"
                           className="file-preview"
+                          alt="pic"
                         />
                       </div>
                     </div>

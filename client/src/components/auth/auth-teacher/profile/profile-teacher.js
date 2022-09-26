@@ -1,5 +1,5 @@
 import EditTeacher from "./edit-teacher";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddCourse from "./add-course";
